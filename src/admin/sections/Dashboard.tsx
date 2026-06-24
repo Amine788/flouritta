@@ -80,13 +80,13 @@ export function Dashboard() {
   if (loading) {
     return (
       <div className="h-[60vh] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#D4AF37]"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#C59B63]"></div>
       </div>
     );
   }
 
   const cards = [
-    { label: "Total Réservations", value: stats.total, icon: <Calendar size={20} />, color: "text-[#D4AF37]", bg: "bg-[#D4AF37]/10" },
+    { label: "Total Réservations", value: stats.total, icon: <Calendar size={20} />, color: "text-[#C59B63]", bg: "bg-[#C59B63]/10" },
     { label: "Aujourd'hui", value: stats.today, icon: <Clock size={20} />, color: "text-blue-400", bg: "bg-blue-400/10" },
     { label: "En attente", value: stats.pending, icon: <AlertCircle size={20} />, color: "text-amber-400", bg: "bg-amber-400/10" },
     { label: "Confirmées", value: stats.confirmed, icon: <UserCheck size={20} />, color: "text-emerald-400", bg: "bg-emerald-400/10" },
@@ -103,7 +103,7 @@ export function Dashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="bg-[#0a110a] border border-[#D4AF37]/10 p-5 rounded-sm hover:border-[#D4AF37]/30 transition-all group"
+            className="bg-white border border-[#E5E0D8] p-5 rounded-sm hover:border-[#C59B63]/30 transition-all group"
           >
             <div className="flex items-center justify-between mb-4">
               <div className={`p-2 rounded-sm ${card.bg} ${card.color}`}>
@@ -111,10 +111,10 @@ export function Dashboard() {
               </div>
               <TrendingUp size={14} className="text-emerald-500/40" />
             </div>
-            <div className="text-2xl font-bold text-[#f0ebe0] mb-1 tracking-tight" style={{ fontFamily: "Playfair Display, serif" }}>
+            <div className="text-2xl font-bold text-[#1A1A1A] mb-1 tracking-tight" style={{ fontFamily: "Playfair Display, serif" }}>
               {card.value}
             </div>
-            <div className="text-[#f0ebe0]/30 text-[10px] uppercase tracking-[0.2em] font-medium">
+            <div className="text-[#1A1A1A]/30 text-[10px] uppercase tracking-[0.2em] font-medium">
               {card.label}
             </div>
           </motion.div>
@@ -126,14 +126,14 @@ export function Dashboard() {
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="lg:col-span-2 bg-[#0a110a] border border-[#D4AF37]/10 p-6 rounded-sm"
+          className="lg:col-span-2 bg-white border border-[#E5E0D8] p-6 rounded-sm"
         >
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h3 className="text-[#f0ebe0] text-sm font-bold tracking-wider uppercase mb-1">Activité Hebdomadaire</h3>
-              <p className="text-[#f0ebe0]/30 text-[10px] tracking-widest uppercase">Réservations des 7 derniers jours</p>
+              <h3 className="text-[#1A1A1A] text-sm font-bold tracking-wider uppercase mb-1">Activité Hebdomadaire</h3>
+              <p className="text-[#1A1A1A]/30 text-[10px] tracking-widest uppercase">Réservations des 7 derniers jours</p>
             </div>
-            <BarChart3 size={16} className="text-[#D4AF37]/40" />
+            <BarChart3 size={16} className="text-[#C59B63]/40" />
           </div>
           
           <div className="h-[300px] w-full">
@@ -141,11 +141,11 @@ export function Dashboard() {
               <AreaChart data={stats.chartData}>
                 <defs>
                   <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#D4AF37" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#D4AF37" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#C59B63" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#C59B63" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#D4AF37" vertical={false} opacity={0.05} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#C59B63" vertical={false} opacity={0.05} />
                 <XAxis 
                   dataKey="name" 
                   stroke="#f0ebe0" 
@@ -165,12 +165,12 @@ export function Dashboard() {
                 />
                 <Tooltip 
                   contentStyle={{ backgroundColor: '#040809', border: '1px solid rgba(212,175,55,0.2)', fontSize: '12px' }}
-                  itemStyle={{ color: '#D4AF37' }}
+                  itemStyle={{ color: '#C59B63' }}
                 />
                 <Area 
                   type="monotone" 
                   dataKey="count" 
-                  stroke="#D4AF37" 
+                  stroke="#C59B63" 
                   strokeWidth={2}
                   fillOpacity={1} 
                   fill="url(#colorCount)" 
@@ -186,24 +186,24 @@ export function Dashboard() {
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-[#0a110a] border border-[#D4AF37]/10 p-6 rounded-sm"
+            className="bg-white border border-[#E5E0D8] p-6 rounded-sm"
           >
-            <h3 className="text-[#f0ebe0] text-xs font-bold tracking-widest uppercase mb-6 flex items-center gap-2">
-              <UserCheck size={14} className="text-[#D4AF37]" />
+            <h3 className="text-[#1A1A1A] text-xs font-bold tracking-widest uppercase mb-6 flex items-center gap-2">
+              <UserCheck size={14} className="text-[#C59B63]" />
               Top Barbier
             </h3>
             {stats.topBarber ? (
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-[#f0ebe0] font-medium text-lg mb-1">{stats.topBarber.name}</div>
-                  <div className="text-[#f0ebe0]/30 text-[10px] uppercase tracking-widest">{stats.topBarber.count} Réservations</div>
+                  <div className="text-[#1A1A1A] font-medium text-lg mb-1">{stats.topBarber.name}</div>
+                  <div className="text-[#1A1A1A]/30 text-[10px] uppercase tracking-widest">{stats.topBarber.count} Réservations</div>
                 </div>
-                <div className="h-12 w-12 rounded-full border border-[#D4AF37]/20 flex items-center justify-center bg-[#D4AF37]/5">
-                   <Scissors size={20} className="text-[#D4AF37]" />
+                <div className="h-12 w-12 rounded-full border border-[#C59B63]/20 flex items-center justify-center bg-[#FAF8F5]">
+                   <Scissors size={20} className="text-[#C59B63]" />
                 </div>
               </div>
             ) : (
-              <div className="text-[#f0ebe0]/20 text-xs uppercase tracking-widest italic">Aucune donnée</div>
+              <div className="text-[#1A1A1A]/20 text-xs uppercase tracking-widest italic">Aucune donnée</div>
             )}
           </motion.div>
 
@@ -211,24 +211,24 @@ export function Dashboard() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-[#0a110a] border border-[#D4AF37]/10 p-6 rounded-sm"
+            className="bg-white border border-[#E5E0D8] p-6 rounded-sm"
           >
-            <h3 className="text-[#f0ebe0] text-xs font-bold tracking-widest uppercase mb-6 flex items-center gap-2">
-              <Tag size={14} className="text-[#D4AF37]" />
+            <h3 className="text-[#1A1A1A] text-xs font-bold tracking-widest uppercase mb-6 flex items-center gap-2">
+              <Tag size={14} className="text-[#C59B63]" />
               Service Phare
             </h3>
             {stats.topService ? (
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-[#f0ebe0] font-medium text-lg mb-1">{stats.topService.name}</div>
-                  <div className="text-[#f0ebe0]/30 text-[10px] uppercase tracking-widest">{stats.topService.count} demandes</div>
+                  <div className="text-[#1A1A1A] font-medium text-lg mb-1">{stats.topService.name}</div>
+                  <div className="text-[#1A1A1A]/30 text-[10px] uppercase tracking-widest">{stats.topService.count} demandes</div>
                 </div>
-                <div className="h-12 w-12 rounded-sm border border-[#D4AF37]/20 flex items-center justify-center bg-[#D4AF37]/5 transform rotate-12">
-                   <ArrowUpRight size={20} className="text-[#D4AF37]" />
+                <div className="h-12 w-12 rounded-sm border border-[#C59B63]/20 flex items-center justify-center bg-[#FAF8F5] transform rotate-12">
+                   <ArrowUpRight size={20} className="text-[#C59B63]" />
                 </div>
               </div>
             ) : (
-              <div className="text-[#f0ebe0]/20 text-xs uppercase tracking-widest italic">Aucune donnée</div>
+              <div className="text-[#1A1A1A]/20 text-xs uppercase tracking-widest italic">Aucune donnée</div>
             )}
           </motion.div>
         </div>
@@ -238,27 +238,27 @@ export function Dashboard() {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-[#0a110a] border border-[#D4AF37]/10 rounded-sm overflow-hidden"
+        className="bg-white border border-[#E5E0D8] rounded-sm overflow-hidden"
       >
-        <div className="p-6 border-b border-[#D4AF37]/10 flex items-center justify-between">
-          <h3 className="text-[#f0ebe0] text-sm font-bold tracking-wider uppercase">Activité Récente</h3>
-          <PlusCircle size={16} className="text-[#D4AF37]/40" />
+        <div className="p-6 border-b border-[#E5E0D8] flex items-center justify-between">
+          <h3 className="text-[#1A1A1A] text-sm font-bold tracking-wider uppercase">Activité Récente</h3>
+          <PlusCircle size={16} className="text-[#C59B63]/40" />
         </div>
-        <div className="divide-y divide-[#D4AF37]/5">
+        <div className="divide-y divide-[#C59B63]/5">
           {reservations.slice(0, 5).map((res, i) => (
-            <div key={res.id} className="p-4 hover:bg-[#D4AF37]/5 transition-colors flex items-center justify-between">
+            <div key={res.id} className="p-4 hover:bg-[#FAF8F5] transition-colors flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="h-8 w-8 rounded-full bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37]">
+                <div className="h-8 w-8 rounded-full bg-[#C59B63]/10 flex items-center justify-center text-[#C59B63]">
                   <UserCheck size={14} />
                 </div>
                 <div>
-                  <div className="text-xs font-medium text-[#f0ebe0]">{res.name}</div>
-                  <div className="text-[10px] text-[#f0ebe0]/30 uppercase tracking-widest">{res.service} • {res.time}</div>
+                  <div className="text-xs font-medium text-[#1A1A1A]">{res.name}</div>
+                  <div className="text-[10px] text-[#1A1A1A]/30 uppercase tracking-widest">{res.service} • {res.time}</div>
                 </div>
               </div>
               <div className="flex items-center gap-4">
                  <div className="text-right hidden sm:block">
-                   <div className="text-[10px] text-[#f0ebe0]/40 tracking-wider uppercase">{res.date}</div>
+                   <div className="text-[10px] text-[#1A1A1A]/40 tracking-wider uppercase">{res.date}</div>
                  </div>
                  <div className={`text-[9px] uppercase tracking-[0.2em] font-bold px-2 py-1 rounded-sm border ${
                     res.status === 'Confirmé' ? 'border-emerald-500/30 text-emerald-400 bg-emerald-500/5' :
@@ -271,7 +271,7 @@ export function Dashboard() {
             </div>
           ))}
           {reservations.length === 0 && (
-            <div className="p-10 text-center text-[#f0ebe0]/20 text-xs uppercase tracking-widest">
+            <div className="p-10 text-center text-[#1A1A1A]/20 text-xs uppercase tracking-widest">
               Aucune activité pour le moment
             </div>
           )}

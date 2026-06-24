@@ -28,8 +28,8 @@ const STATUS_CONFIG = {
     dot: "bg-red-400",
   },
   "Servi": {
-    styles: "text-[#D4AF37] bg-[#D4AF37]/8 border border-[#D4AF37]/20",
-    dot: "bg-[#D4AF37]",
+    styles: "text-[#C59B63] bg-[#C59B63]/10 border border-[#C59B63]/20",
+    dot: "bg-[#C59B63]",
   },
 };
 
@@ -169,12 +169,12 @@ export function Reservations() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2
-            className="text-[#f0ebe0] text-xl"
+            className="text-[#1A1A1A] text-xl"
             style={{ fontFamily: "Playfair Display, serif", fontWeight: 700 }}
           >
             Gestion des Réservations
           </h2>
-          <p className="text-[#f0ebe0]/40 text-xs tracking-wider mt-1 uppercase">
+          <p className="text-[#1A1A1A]/40 text-xs tracking-wider mt-1 uppercase">
             {filtered.length} résultat{filtered.length !== 1 ? "s" : ""} trouvé{filtered.length !== 1 ? "s" : ""}
             <span className="mx-2">/</span>
             {reservations.length} au total
@@ -183,14 +183,14 @@ export function Reservations() {
         <div className="flex gap-2">
           <button
             onClick={resetFilters}
-            className="flex items-center gap-2 border border-[#f0ebe0]/10 text-[#f0ebe0]/40 hover:text-[#f0ebe0] px-4 py-2 text-[10px] tracking-[0.2em] uppercase transition-all"
+            className="flex items-center gap-2 border border-[#f0ebe0]/10 text-[#1A1A1A]/40 hover:text-[#1A1A1A] px-4 py-2 text-[10px] tracking-[0.2em] uppercase transition-all"
           >
             <X size={12} /> Reset
           </button>
           <button
             onClick={refresh}
             disabled={loading}
-            className="flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/20 text-[#D4AF37] hover:bg-[#D4AF37]/20 px-4 py-2 text-[10px] tracking-[0.2em] uppercase transition-all disabled:opacity-40"
+            className="flex items-center gap-2 bg-[#C59B63]/10 border border-[#C59B63]/20 text-[#C59B63] hover:bg-[#C59B63]/20 px-4 py-2 text-[10px] tracking-[0.2em] uppercase transition-all disabled:opacity-40"
           >
             {loading ? <Loader2 size={12} className="animate-spin" /> : <RefreshCw size={12} />}
             Actualiser
@@ -206,48 +206,48 @@ export function Reservations() {
             onClick={() => setStatusFilter(s)}
             className={`p-4 border text-left transition-all relative overflow-hidden group ${
               statusFilter === s
-                ? "border-[#D4AF37]/45 bg-[#D4AF37]/5 shadow-lg shadow-[#D4AF37]/5"
-                : "border-[#D4AF37]/10 bg-[#0a110a] hover:border-[#D4AF37]/25"
+                ? "border-[#C59B63]/45 bg-[#FAF8F5] shadow-lg shadow-[#C59B63]/5"
+                : "border-[#E5E0D8] bg-white hover:border-[#C59B63]/25"
             }`}
           >
             <div
-              className="text-[#D4AF37] text-2xl"
+              className="text-[#C59B63] text-2xl"
               style={{ fontFamily: "Playfair Display, serif", fontWeight: 700 }}
             >
               {counts[s]}
             </div>
-            <div className="text-[#f0ebe0]/40 text-[9px] tracking-[0.2em] uppercase mt-1">
+            <div className="text-[#1A1A1A]/40 text-[9px] tracking-[0.2em] uppercase mt-1">
               {s}
             </div>
             {statusFilter === s && (
-              <motion.div layoutId="stat-active" className="absolute bottom-0 left-0 w-full h-0.5 bg-[#D4AF37]" />
+              <motion.div layoutId="stat-active" className="absolute bottom-0 left-0 w-full h-0.5 bg-[#C59B63]" />
             )}
           </button>
         ))}
       </div>
 
       {/* Filters Bar */}
-      <div className="bg-[#0a110a] border border-[#D4AF37]/10 p-4 space-y-4">
+      <div className="bg-white border border-[#E5E0D8] p-4 space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {/* Search */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#D4AF37]/40" size={14} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#C59B63]/40" size={14} />
             <input
               type="text"
               placeholder="Nom ou téléphone..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-[#050805] border border-[#D4AF37]/10 text-[#f0ebe0] pl-10 pr-4 py-2.5 text-xs focus:border-[#D4AF37]/40 outline-none transition-all placeholder:text-[#f0ebe0]/20"
+              className="w-full bg-white border border-[#E5E0D8] text-[#1A1A1A] pl-10 pr-4 py-2.5 text-xs focus:border-[#C59B63]/40 outline-none transition-all placeholder:text-[#1A1A1A]/20"
             />
           </div>
 
           {/* Date Filter */}
           <div className="relative">
-            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-[#D4AF37]/40" size={14} />
+            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-[#C59B63]/40" size={14} />
             <select
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value as DateFilter)}
-              className="w-full bg-[#050805] border border-[#D4AF37]/10 text-[#f0ebe0] pl-10 pr-4 py-2.5 text-xs focus:border-[#D4AF37]/40 outline-none appearance-none cursor-pointer"
+              className="w-full bg-white border border-[#E5E0D8] text-[#1A1A1A] pl-10 pr-4 py-2.5 text-xs focus:border-[#C59B63]/40 outline-none appearance-none cursor-pointer"
             >
               <option value="Tous">Toutes les dates</option>
               <option value="Aujourd'hui">Aujourd'hui</option>
@@ -255,7 +255,7 @@ export function Reservations() {
               <option value="Ce mois">Ce mois-ci</option>
               <option value="Custom">Date précise...</option>
             </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#D4AF37]/40 pointer-events-none" size={12} />
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#C59B63]/40 pointer-events-none" size={12} />
           </div>
 
           {/* Custom Date Input */}
@@ -265,65 +265,65 @@ export function Reservations() {
                 type="date"
                 value={customDate}
                 onChange={(e) => setCustomDate(e.target.value)}
-                className="w-full bg-[#050805] border border-[#D4AF37]/10 text-[#f0ebe0] px-4 py-2.5 text-xs focus:border-[#D4AF37]/40 outline-none transition-all [color-scheme:dark]"
+                className="w-full bg-white border border-[#E5E0D8] text-[#1A1A1A] px-4 py-2.5 text-xs focus:border-[#C59B63]/40 outline-none transition-all [color-scheme:dark]"
               />
             </div>
           )}
 
           {/* Service Filter */}
           <div className="relative">
-            <Scissors className="absolute left-3 top-1/2 -translate-y-1/2 text-[#D4AF37]/40" size={14} />
+            <Scissors className="absolute left-3 top-1/2 -translate-y-1/2 text-[#C59B63]/40" size={14} />
             <select
               value={serviceFilter}
               onChange={(e) => setServiceFilter(e.target.value)}
-              className="w-full bg-[#050805] border border-[#D4AF37]/10 text-[#f0ebe0] pl-10 pr-4 py-2.5 text-xs focus:border-[#D4AF37]/40 outline-none appearance-none cursor-pointer"
+              className="w-full bg-white border border-[#E5E0D8] text-[#1A1A1A] pl-10 pr-4 py-2.5 text-xs focus:border-[#C59B63]/40 outline-none appearance-none cursor-pointer"
             >
               <option value="Tous">Tous les services</option>
               {services.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#D4AF37]/40 pointer-events-none" size={12} />
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#C59B63]/40 pointer-events-none" size={12} />
           </div>
 
           {/* Barber Filter */}
           <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-[#D4AF37]/40" size={14} />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-[#C59B63]/40" size={14} />
             <select
               value={barberFilter}
               onChange={(e) => setBarberFilter(e.target.value)}
-              className="w-full bg-[#050805] border border-[#D4AF37]/10 text-[#f0ebe0] pl-10 pr-4 py-2.5 text-xs focus:border-[#D4AF37]/40 outline-none appearance-none cursor-pointer"
+              className="w-full bg-white border border-[#E5E0D8] text-[#1A1A1A] pl-10 pr-4 py-2.5 text-xs focus:border-[#C59B63]/40 outline-none appearance-none cursor-pointer"
             >
               <option value="Tous">Tous les barbiers</option>
               {barbers.map(b => <option key={b} value={b}>{b}</option>)}
             </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#D4AF37]/40 pointer-events-none" size={12} />
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#C59B63]/40 pointer-events-none" size={12} />
           </div>
         </div>
       </div>
 
       {/* Main Content List / Table */}
       {loading && filtered.length === 0 ? (
-        <div className="border border-[#D4AF37]/10 bg-[#0a110a] p-16 text-center">
-          <Loader2 size={32} className="text-[#D4AF37]/30 mx-auto mb-4 animate-spin" />
-          <p className="text-[#f0ebe0]/30 text-sm tracking-wider uppercase">Chargement...</p>
+        <div className="border border-[#E5E0D8] bg-white p-16 text-center">
+          <Loader2 size={32} className="text-[#C59B63]/30 mx-auto mb-4 animate-spin" />
+          <p className="text-[#1A1A1A]/30 text-sm tracking-wider uppercase">Chargement...</p>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="border border-[#D4AF37]/10 bg-[#0a110a] p-16 text-center">
-          <Filter size={32} className="text-[#D4AF37]/20 mx-auto mb-4" />
-          <p className="text-[#f0ebe0]/30 text-sm tracking-wider uppercase">
+        <div className="border border-[#E5E0D8] bg-white p-16 text-center">
+          <Filter size={32} className="text-[#C59B63]/20 mx-auto mb-4" />
+          <p className="text-[#1A1A1A]/30 text-sm tracking-wider uppercase">
             Aucune réservation ne correspond à vos filtres
           </p>
-          <button onClick={resetFilters} className="mt-4 text-[#D4AF37] text-[10px] tracking-widest uppercase hover:underline">
+          <button onClick={resetFilters} className="mt-4 text-[#C59B63] text-[10px] tracking-widest uppercase hover:underline">
             Réinitialiser les filtres
           </button>
         </div>
       ) : (
         <div className="space-y-4">
           {/* DESKTOP TABLE VIEW */}
-          <div className="hidden md:block bg-[#0a110a] border border-[#D4AF37]/10 overflow-hidden">
+          <div className="hidden md:block bg-white border border-[#E5E0D8] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full border-collapse text-left">
                 <thead>
-                  <tr className="border-b border-[#D4AF37]/15 bg-[#050805]/50 text-[#D4AF37] text-[10px] tracking-[0.2em] uppercase">
+                  <tr className="border-b border-[#E5E0D8] bg-white/50 text-[#C59B63] text-[10px] tracking-[0.2em] uppercase">
                     <th className="py-4.5 px-6 font-semibold">Date & Heure</th>
                     <th className="py-4.5 px-6 font-semibold">Client</th>
                     <th className="py-4.5 px-6 font-semibold">Prestations</th>
@@ -333,7 +333,7 @@ export function Reservations() {
                     <th className="py-4.5 px-6 text-right font-semibold">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#D4AF37]/8">
+                <tbody className="divide-y divide-[#C59B63]/8">
                   <AnimatePresence mode="popLayout">
                     {filtered.map((res) => {
                       const cfg = STATUS_CONFIG[res.status] || STATUS_CONFIG["En attente"];
@@ -347,17 +347,17 @@ export function Reservations() {
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="hover:bg-[#D4AF37]/2 transition-colors duration-250 align-middle"
+                          className="hover:bg-[#C59B63]/2 transition-colors duration-250 align-middle"
                         >
                           {/* Date & Time */}
                           <td className="py-5 px-6 whitespace-nowrap">
                             <div className="flex items-center gap-3">
-                              <div className="p-2 bg-[#D4AF37]/8 border border-[#D4AF37]/12 text-[#D4AF37]">
+                              <div className="p-2 bg-[#C59B63]/10 border border-[#E5E0D8] text-[#C59B63]">
                                 <Clock size={15} />
                               </div>
                               <div>
-                                <div className="text-[#D4AF37] font-bold text-sm tracking-wide">{res.time}</div>
-                                <div className="text-[#f0ebe0]/55 text-xs mt-0.5">{formatReadableDate(res.date)}</div>
+                                <div className="text-[#C59B63] font-bold text-sm tracking-wide">{res.time}</div>
+                                <div className="text-[#1A1A1A]/55 text-xs mt-0.5">{formatReadableDate(res.date)}</div>
                               </div>
                             </div>
                           </td>
@@ -365,8 +365,8 @@ export function Reservations() {
                           {/* Client */}
                           <td className="py-5 px-6">
                             <div>
-                              <div className="text-[#f0ebe0] font-semibold text-sm tracking-wide">{res.name}</div>
-                              <div className="flex items-center gap-1 text-[#f0ebe0]/40 text-xs mt-0.5 font-mono">
+                              <div className="text-[#1A1A1A] font-semibold text-sm tracking-wide">{res.name}</div>
+                              <div className="flex items-center gap-1 text-[#1A1A1A]/40 text-xs mt-0.5 font-mono">
                                 <Phone size={10} className="shrink-0" />
                                 <span>{res.phone}</span>
                               </div>
@@ -380,28 +380,28 @@ export function Reservations() {
                                 (res.services ?? []).map((s, i) => (
                                   <span
                                     key={i}
-                                    className="inline-block bg-[#D4AF37]/8 border border-[#D4AF37]/18 text-[#D4AF37] text-[9px] tracking-wider uppercase px-2 py-0.5 rounded-sm"
+                                    className="inline-block bg-[#C59B63]/10 border border-[#C59B63]/18 text-[#C59B63] text-[9px] tracking-wider uppercase px-2 py-0.5 rounded-sm"
                                   >
                                     {s.name} ({s.price} DH)
                                   </span>
                                 ))
                               ) : (
-                                <span className="text-[#f0ebe0]/30 text-xs">—</span>
+                                <span className="text-[#1A1A1A]/30 text-xs">—</span>
                               )}
                             </div>
                           </td>
 
                           {/* Barbier */}
                           <td className="py-5 px-6 whitespace-nowrap">
-                            <div className="flex items-center gap-1.5 text-[#f0ebe0]/80 text-xs">
-                              <Award size={12} className="text-[#D4AF37]/60" />
+                            <div className="flex items-center gap-1.5 text-[#1A1A1A]/80 text-xs">
+                              <Award size={12} className="text-[#C59B63]/60" />
                               <span>{res.barber || "Non assigné"}</span>
                             </div>
                           </td>
 
                           {/* Total Price */}
                           <td className="py-5 px-6 whitespace-nowrap">
-                            <div className="text-[#D4AF37] font-bold font-mono text-sm">
+                            <div className="text-[#C59B63] font-bold font-mono text-sm">
                               {totalPrice} DH
                             </div>
                           </td>
@@ -421,7 +421,7 @@ export function Reservations() {
                                 <button
                                   onClick={() => handleStatus(res.id, "Servi")}
                                   title="Marquer comme servi (Terminé)"
-                                  className="flex items-center gap-1.5 px-3 py-1.5 border border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37]/10 transition-all text-[9px] font-bold tracking-widest uppercase rounded-sm"
+                                  className="flex items-center gap-1.5 px-3 py-1.5 border border-[#C59B63]/40 text-[#C59B63] hover:bg-[#C59B63]/10 transition-all text-[9px] font-bold tracking-widest uppercase rounded-sm"
                                 >
                                   <CheckCircle size={11} /> Terminer
                                 </button>
@@ -489,15 +489,15 @@ export function Reservations() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="bg-[#0a110a] border border-[#D4AF37]/10 p-5 rounded-sm space-y-4"
+                    className="bg-white border border-[#E5E0D8] p-5 rounded-sm space-y-4"
                   >
                     {/* Header: Date/Heure + Statut */}
-                    <div className="flex items-center justify-between pb-3 border-b border-[#D4AF37]/10">
+                    <div className="flex items-center justify-between pb-3 border-b border-[#E5E0D8]">
                       <div className="flex items-center gap-2">
-                        <Clock size={14} className="text-[#D4AF37]" />
-                        <span className="text-sm font-bold text-[#D4AF37]">{res.time}</span>
-                        <span className="text-[#f0ebe0]/30 text-xs">•</span>
-                        <span className="text-[#f0ebe0]/60 text-xs">{formatReadableDate(res.date)}</span>
+                        <Clock size={14} className="text-[#C59B63]" />
+                        <span className="text-sm font-bold text-[#C59B63]">{res.time}</span>
+                        <span className="text-[#1A1A1A]/30 text-xs">•</span>
+                        <span className="text-[#1A1A1A]/60 text-xs">{formatReadableDate(res.date)}</span>
                       </div>
                       <div className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase ${cfg.styles}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
@@ -507,21 +507,21 @@ export function Reservations() {
 
                     {/* Client Info */}
                     <div className="space-y-1">
-                      <div className="text-[10px] text-[#D4AF37]/50 uppercase tracking-widest">Client</div>
-                      <div className="text-sm font-bold text-[#f0ebe0]">{res.name}</div>
-                      <div className="text-xs text-[#f0ebe0]/50 font-mono flex items-center gap-1">
+                      <div className="text-[10px] text-[#C59B63]/50 uppercase tracking-widest">Client</div>
+                      <div className="text-sm font-bold text-[#1A1A1A]">{res.name}</div>
+                      <div className="text-xs text-[#1A1A1A]/50 font-mono flex items-center gap-1">
                         <Phone size={10} /> {res.phone}
                       </div>
                     </div>
 
                     {/* Prestations */}
                     <div className="space-y-1.5">
-                      <div className="text-[10px] text-[#D4AF37]/50 uppercase tracking-widest">Prestations</div>
+                      <div className="text-[10px] text-[#C59B63]/50 uppercase tracking-widest">Prestations</div>
                       <div className="flex flex-wrap gap-1">
                         {(res.services ?? []).map((s, i) => (
                           <span
                             key={i}
-                            className="bg-[#D4AF37]/10 border border-[#D4AF37]/20 text-[#D4AF37] text-[9px] px-2 py-0.5 rounded-sm"
+                            className="bg-[#C59B63]/10 border border-[#C59B63]/20 text-[#C59B63] text-[9px] px-2 py-0.5 rounded-sm"
                           >
                             {s.name} ({s.price} DH)
                           </span>
@@ -532,21 +532,21 @@ export function Reservations() {
                     {/* Barber & Total */}
                     <div className="grid grid-cols-2 gap-4 pt-2">
                       <div>
-                        <div className="text-[10px] text-[#D4AF37]/50 uppercase tracking-widest">Barbier</div>
-                        <div className="text-xs text-[#f0ebe0]/80 mt-1 font-medium">{res.barber || "Non assigné"}</div>
+                        <div className="text-[10px] text-[#C59B63]/50 uppercase tracking-widest">Barbier</div>
+                        <div className="text-xs text-[#1A1A1A]/80 mt-1 font-medium">{res.barber || "Non assigné"}</div>
                       </div>
                       <div>
-                        <div className="text-[10px] text-[#D4AF37]/50 uppercase tracking-widest">Total</div>
-                        <div className="text-sm font-bold text-[#D4AF37] mt-1">{totalPrice} DH</div>
+                        <div className="text-[10px] text-[#C59B63]/50 uppercase tracking-widest">Total</div>
+                        <div className="text-sm font-bold text-[#C59B63] mt-1">{totalPrice} DH</div>
                       </div>
                     </div>
 
                     {/* Actions */}
-                    <div className="pt-3 border-t border-[#D4AF37]/10 flex flex-wrap gap-2 justify-end">
+                    <div className="pt-3 border-t border-[#E5E0D8] flex flex-wrap gap-2 justify-end">
                       {res.status === "Confirmé" && (
                         <button
                           onClick={() => handleStatus(res.id, "Servi")}
-                          className="flex items-center gap-1.5 px-3 py-1.5 border border-[#D4AF37]/45 text-[#D4AF37] hover:bg-[#D4AF37]/10 text-[9px] font-bold tracking-widest uppercase rounded-sm"
+                          className="flex items-center gap-1.5 px-3 py-1.5 border border-[#C59B63]/45 text-[#C59B63] hover:bg-[#C59B63]/10 text-[9px] font-bold tracking-widest uppercase rounded-sm"
                         >
                           <CheckCircle size={10} /> Terminer
                         </button>

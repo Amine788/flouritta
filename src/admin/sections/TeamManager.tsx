@@ -240,7 +240,7 @@ export function TeamManager() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-32">
-        <Loader2 size={32} className="text-[#D4AF37]/40 animate-spin" />
+        <Loader2 size={32} className="text-[#C59B63]/40 animate-spin" />
       </div>
     );
   }
@@ -251,12 +251,12 @@ export function TeamManager() {
       <div className="flex items-center justify-between">
         <div>
           <h2
-            className="text-[#f0ebe0] text-xl"
+            className="text-[#1A1A1A] text-xl"
             style={{ fontFamily: "Playfair Display, serif", fontWeight: 700 }}
           >
             Gestion de l'Équipe
           </h2>
-          <p className="text-[#f0ebe0]/40 text-xs tracking-wider mt-1">
+          <p className="text-[#1A1A1A]/40 text-xs tracking-wider mt-1">
             Gérez les barbiers qui apparaissent sur le site
           </p>
         </div>
@@ -273,7 +273,7 @@ export function TeamManager() {
           )}
           <button
             onClick={addMember}
-            className="flex items-center gap-2 bg-[#D4AF37] text-[#040809] px-5 py-2.5 text-[10px] tracking-widest uppercase font-bold hover:bg-[#c9a632] transition-colors"
+            className="flex items-center gap-2 bg-[#C59B63] text-[#040809] px-5 py-2.5 text-[10px] tracking-widest uppercase font-bold hover:bg-[#c9a632] transition-colors"
           >
             <Plus size={14} /> Ajouter un membre
           </button>
@@ -295,12 +295,12 @@ export function TeamManager() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
-                className={`bg-[#0a110a] border transition-all duration-300 overflow-hidden relative ${
-                  isEditing ? "border-[#D4AF37]/40" : "border-[#D4AF37]/10 hover:border-[#D4AF37]/25"
+                className={`bg-white border transition-all duration-300 overflow-hidden relative ${
+                  isEditing ? "border-[#C59B63]/40" : "border-[#E5E0D8] hover:border-[#C59B63]/25"
                 }`}
               >
                   {/* Photo */}
-                <div className="relative h-52 overflow-hidden bg-[#040809] group/photo">
+                <div className="relative h-52 overflow-hidden bg-white group/photo">
                   {current.photo ? (
                     <img
                       src={getImageUrl(current.photo)}
@@ -311,19 +311,19 @@ export function TeamManager() {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <User size={40} className="text-[#D4AF37]/20" />
+                      <User size={40} className="text-[#C59B63]/20" />
                     </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a110a] to-transparent pointer-events-none" />
                   
                   {/* Overlay upload photo : visible si en édition OU au survol en mode normal */}
-                  <div className={`absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-[2px] transition-opacity duration-200 ${
+                  <div className={`absolute inset-0 flex items-center justify-center bg-[#1A1A1A]/30 backdrop-blur-[2px] transition-opacity duration-200 ${
                     isEditing ? "opacity-100 pointer-events-auto" : "opacity-0 group-hover/photo:opacity-100 pointer-events-none group-hover/photo:pointer-events-auto"
                   }`}>
                     <button 
                       onClick={() => triggerPhotoUpload(index)}
                       disabled={uploading}
-                      className="flex flex-col items-center gap-2 text-[#D4AF37] hover:text-[#f0ebe0] transition-colors"
+                      className="flex flex-col items-center gap-2 text-[#C59B63] hover:text-[#1A1A1A] transition-colors"
                     >
                       {uploading && (isEditing ? editingId === index : activeUploadIndex === index) ? (
                         <Loader2 size={20} className="animate-spin" />
@@ -348,7 +348,7 @@ export function TeamManager() {
                         </button>
                         <button
                           onClick={() => startEdit(index)}
-                          className="bg-[#040809]/80 backdrop-blur-sm border border-[#D4AF37]/30 text-[#D4AF37] p-2 hover:bg-[#D4AF37]/15 transition-all duration-200"
+                          className="bg-white/80 backdrop-blur-sm border border-[#C59B63]/30 text-[#C59B63] p-2 hover:bg-[#C59B63]/15 transition-all duration-200"
                         >
                           <Edit2 size={13} />
                         </button>
@@ -359,12 +359,12 @@ export function TeamManager() {
                   {/* Name overlay */}
                   <div className="absolute bottom-3 left-3">
                     <div
-                      className="text-[#f0ebe0] text-base"
+                      className="text-[#1A1A1A] text-base"
                       style={{ fontFamily: "Playfair Display, serif", fontWeight: 700 }}
                     >
                       {current.name}
                     </div>
-                    <div className="text-[#D4AF37]/60 text-[9px] tracking-[0.25em] uppercase mt-0.5">
+                    <div className="text-[#C59B63]/60 text-[9px] tracking-[0.25em] uppercase mt-0.5">
                       {current.title}
                     </div>
                   </div>
@@ -376,16 +376,16 @@ export function TeamManager() {
                     <div className="space-y-3">
                       {/* Name field */}
                       <div>
-                        <label className="text-[#D4AF37]/55 text-[9px] tracking-[0.3em] uppercase block mb-1.5">
+                        <label className="text-[#C59B63]/55 text-[9px] tracking-[0.3em] uppercase block mb-1.5">
                           Nom du barbier
                         </label>
                         <div className="relative">
-                          <User size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#D4AF37]/40 pointer-events-none" />
+                          <User size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#C59B63]/40 pointer-events-none" />
                           <input
                             type="text"
                             value={draft.name}
                             onChange={(e) => setDraft({ ...draft, name: e.target.value })}
-                            className="w-full bg-[#040809] border border-[#D4AF37]/20 pl-8 pr-3 py-2.5 text-[#f0ebe0] text-xs focus:border-[#D4AF37]/50 outline-none transition-colors"
+                            className="w-full bg-white border border-[#C59B63]/20 pl-8 pr-3 py-2.5 text-[#1A1A1A] text-xs focus:border-[#C59B63]/50 outline-none transition-colors"
                             placeholder="Nom du barbier"
                           />
                         </div>
@@ -393,20 +393,20 @@ export function TeamManager() {
 
                       {/* Specialty field */}
                       <div className="pt-2">
-                        <label className="text-[#D4AF37]/55 text-[9px] tracking-[0.3em] uppercase block mb-1.5">
+                        <label className="text-[#C59B63]/55 text-[9px] tracking-[0.3em] uppercase block mb-1.5">
                           Spécialité
                         </label>
                         <input
                           type="text"
                           value={draft.specialty}
                           onChange={(e) => setDraft({ ...draft, specialty: e.target.value })}
-                          className="w-full bg-[#040809] border border-[#D4AF37]/20 px-3 py-2.5 text-[#f0ebe0] text-xs focus:border-[#D4AF37]/50 outline-none transition-colors"
+                          className="w-full bg-white border border-[#C59B63]/20 px-3 py-2.5 text-[#1A1A1A] text-xs focus:border-[#C59B63]/50 outline-none transition-colors"
                           placeholder="Spécialité"
                         />
                       </div>
 
                     <div className="pt-2">
-                      <label className="text-[#D4AF37]/55 text-[9px] tracking-[0.3em] uppercase block mb-1.5">
+                      <label className="text-[#C59B63]/55 text-[9px] tracking-[0.3em] uppercase block mb-1.5">
                         Ajustement du cadrage
                       </label>
                       <div
@@ -415,7 +415,7 @@ export function TeamManager() {
                         onMouseMove={handleMouseMove}
                         onMouseUp={stopDragging}
                         onMouseLeave={stopDragging}
-                        className={`relative mx-auto max-w-[320px] aspect-square overflow-hidden rounded-lg border border-[#D4AF37]/20 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} bg-[#040809]`}
+                        className={`relative mx-auto max-w-[320px] aspect-square overflow-hidden rounded-lg border border-[#C59B63]/20 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} bg-white`}
                       >
                         {draft.photo ? (
                           <img
@@ -426,14 +426,14 @@ export function TeamManager() {
                             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-[#D4AF37]/30">
+                          <div className="w-full h-full flex items-center justify-center text-[#C59B63]/30">
                             <User size={28} />
                           </div>
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-[#030706]/95 via-[#030706]/30 to-transparent pointer-events-none" />
                         <div className="absolute top-4 left-4">
                           <span
-                            className="bg-[#D4AF37]/15 backdrop-blur-sm border border-[#D4AF37]/30 text-[#D4AF37] px-3 py-1 text-[9px] tracking-[0.25em] uppercase"
+                            className="bg-[#C59B63]/15 backdrop-blur-sm border border-[#C59B63]/30 text-[#C59B63] px-3 py-1 text-[9px] tracking-[0.25em] uppercase"
                             style={{ fontFamily: 'Raleway, sans-serif' }}
                           >
                             {draft.tag}
@@ -450,10 +450,10 @@ export function TeamManager() {
                           </div>
                         )}
                         <div className="absolute bottom-0 left-0 right-0 p-6 text-left pointer-events-none">
-                          <div className="text-[#f0ebe0] text-sm" style={{ fontFamily: 'Playfair Display, serif', fontWeight: 700 }}>
+                          <div className="text-[#1A1A1A] text-sm" style={{ fontFamily: 'Playfair Display, serif', fontWeight: 700 }}>
                             {draft.name}
                           </div>
-                          <div className="text-[#D4AF37]/70 text-[10px] tracking-[0.2em] uppercase mt-1" style={{ fontFamily: 'Raleway, sans-serif' }}>
+                          <div className="text-[#C59B63]/70 text-[10px] tracking-[0.2em] uppercase mt-1" style={{ fontFamily: 'Raleway, sans-serif' }}>
                             {draft.title}
                           </div>
                         </div>
@@ -471,7 +471,7 @@ export function TeamManager() {
                             key={option.label}
                             type="button"
                             onClick={() => setDraft({ ...draft, photoPosition: option.value })}
-                            className="rounded-md border border-[#D4AF37]/20 bg-[#040809]/80 px-2 py-2 text-[9px] uppercase tracking-[0.25em] text-[#f0ebe0] transition-all hover:border-[#D4AF37]/40"
+                            className="rounded-md border border-[#C59B63]/20 bg-white/80 px-2 py-2 text-[9px] uppercase tracking-[0.25em] text-[#1A1A1A] transition-all hover:border-[#C59B63]/40"
                           >
                             {option.label}
                           </button>
@@ -483,14 +483,14 @@ export function TeamManager() {
                       <button
                         onClick={saveEdit}
                         disabled={saving}
-                        className="flex-1 flex items-center justify-center gap-1.5 bg-[#D4AF37] text-[#040809] py-2.5 text-[9px] tracking-[0.25em] uppercase hover:bg-[#c9a632] transition-colors font-bold disabled:opacity-60"
+                        className="flex-1 flex items-center justify-center gap-1.5 bg-[#C59B63] text-[#040809] py-2.5 text-[9px] tracking-[0.25em] uppercase hover:bg-[#c9a632] transition-colors font-bold disabled:opacity-60"
                       >
                         {saving ? <Loader2 size={11} className="animate-spin" /> : <Save size={11} />}
                         Sauvegarder
                       </button>
                       <button
                         onClick={cancelEdit}
-                        className="flex items-center justify-center gap-1.5 border border-[#D4AF37]/20 text-[#f0ebe0]/40 hover:text-[#f0ebe0]/70 px-3 py-2.5 text-[9px] tracking-wider uppercase transition-colors"
+                        className="flex items-center justify-center gap-1.5 border border-[#C59B63]/20 text-[#1A1A1A]/40 hover:text-[#1A1A1A]/70 px-3 py-2.5 text-[9px] tracking-wider uppercase transition-colors"
                       >
                         <X size={11} />
                       </button>
@@ -498,12 +498,12 @@ export function TeamManager() {
                   </div>
                   ) : (
                     <div>
-                      <p className="text-[#f0ebe0]/45 text-[10px] leading-relaxed">
+                      <p className="text-[#1A1A1A]/45 text-[10px] leading-relaxed">
                         {barber.specialty}
                       </p>
                       <button
                         onClick={() => startEdit(index)}
-                        className="mt-3 w-full flex items-center justify-center gap-2 border border-[#D4AF37]/20 text-[#D4AF37]/60 hover:text-[#D4AF37] hover:border-[#D4AF37]/40 py-2.5 text-[9px] tracking-[0.25em] uppercase transition-all duration-200"
+                        className="mt-3 w-full flex items-center justify-center gap-2 border border-[#C59B63]/20 text-[#C59B63]/60 hover:text-[#C59B63] hover:border-[#C59B63]/40 py-2.5 text-[9px] tracking-[0.25em] uppercase transition-all duration-200"
                       >
                         <Edit2 size={11} /> Modifier
                       </button>
@@ -516,7 +516,7 @@ export function TeamManager() {
         </AnimatePresence>
       </div>
 
-      <p className="text-[#f0ebe0]/20 text-[10px] tracking-wider text-center pt-2">
+      <p className="text-[#1A1A1A]/20 text-[10px] tracking-wider text-center pt-2">
         Les modifications sont appliquées immédiatement sur le site et dans la page de réservation.
       </p>
       {/* Input de fichier unique et global pour éviter les doublons de refs dans la boucle */}

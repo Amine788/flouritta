@@ -262,12 +262,12 @@ export function GalleryManager() {
       {/* ── En-tête ── */}
       <div>
         <h2
-          className="text-[#f0ebe0]/80 text-sm tracking-[0.25em] uppercase mb-1"
+          className="text-[#1A1A1A]/80 text-sm tracking-[0.25em] uppercase mb-1"
           style={{ fontFamily: "Raleway, sans-serif", fontWeight: 600 }}
         >
           Gestion de la Galerie
         </h2>
-        <p className="text-[#f0ebe0]/30 text-xs" style={{ fontFamily: "Raleway, sans-serif" }}>
+        <p className="text-[#1A1A1A]/30 text-xs" style={{ fontFamily: "Raleway, sans-serif" }}>
           Uploadez vos photos — elles sont automatiquement converties en WebP et publiées sur le site.
         </p>
       </div>
@@ -280,8 +280,8 @@ export function GalleryManager() {
         onClick={() => inputRef.current?.click()}
         className={`relative border-2 border-dashed rounded-none cursor-pointer transition-all duration-300 p-10 text-center ${
           isDragging
-            ? "border-[#D4AF37]/70 bg-[#D4AF37]/8"
-            : "border-[#D4AF37]/20 bg-[#D4AF37]/3 hover:border-[#D4AF37]/40 hover:bg-[#D4AF37]/6"
+            ? "border-[#C59B63]/70 bg-[#C59B63]/10"
+            : "border-[#C59B63]/20 bg-[#C59B63]/3 hover:border-[#C59B63]/40 hover:bg-[#C59B63]/6"
         }`}
       >
         <input
@@ -300,19 +300,19 @@ export function GalleryManager() {
           className="flex flex-col items-center gap-4"
         >
           <div className={`w-16 h-16 border flex items-center justify-center transition-colors duration-300 ${
-            isDragging ? "border-[#D4AF37]/60 bg-[#D4AF37]/15" : "border-[#D4AF37]/25 bg-[#D4AF37]/8"
+            isDragging ? "border-[#C59B63]/60 bg-[#C59B63]/15" : "border-[#C59B63]/25 bg-[#C59B63]/10"
           }`}>
-            <Upload size={24} className={`transition-colors duration-300 ${isDragging ? "text-[#D4AF37]" : "text-[#D4AF37]/50"}`} />
+            <Upload size={24} className={`transition-colors duration-300 ${isDragging ? "text-[#C59B63]" : "text-[#C59B63]/50"}`} />
           </div>
 
           <div>
-            <p className="text-[#f0ebe0]/70 text-sm mb-1" style={{ fontFamily: "Raleway, sans-serif" }}>
+            <p className="text-[#1A1A1A]/70 text-sm mb-1" style={{ fontFamily: "Raleway, sans-serif" }}>
               {isDragging ? "Relâchez pour ajouter les photos" : "Glissez vos photos ici"}
             </p>
-            <p className="text-[#f0ebe0]/30 text-xs" style={{ fontFamily: "Raleway, sans-serif" }}>
-              ou <span className="text-[#D4AF37]/60 underline underline-offset-2">cliquez pour parcourir</span>
+            <p className="text-[#1A1A1A]/30 text-xs" style={{ fontFamily: "Raleway, sans-serif" }}>
+              ou <span className="text-[#C59B63]/60 underline underline-offset-2">cliquez pour parcourir</span>
             </p>
-            <p className="text-[#f0ebe0]/20 text-[10px] mt-2 tracking-wider uppercase">
+            <p className="text-[#1A1A1A]/20 text-[10px] mt-2 tracking-wider uppercase">
               JPG · PNG · WebP · GIF · Max 5 Mo · Conversion WebP automatique
             </p>
           </div>
@@ -331,7 +331,7 @@ export function GalleryManager() {
             {/* Barre d'actions */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4 text-[10px] tracking-wider uppercase">
-                {pendingCount   > 0 && <span className="text-[#f0ebe0]/40">{pendingCount} en attente</span>}
+                {pendingCount   > 0 && <span className="text-[#1A1A1A]/40">{pendingCount} en attente</span>}
                 {uploadingCount > 0 && <span className="text-amber-400/80">{uploadingCount} en cours</span>}
                 {doneCount      > 0 && <span className="text-emerald-400/80">{doneCount} terminé{doneCount > 1 ? "s" : ""}</span>}
                 {errorCount     > 0 && <span className="text-red-400/80">{errorCount} erreur{errorCount > 1 ? "s" : ""}</span>}
@@ -340,7 +340,7 @@ export function GalleryManager() {
                 {doneCount > 0 && (
                   <button
                     onClick={clearDone}
-                    className="text-[#f0ebe0]/30 hover:text-[#f0ebe0]/60 text-[10px] tracking-wider uppercase transition-colors"
+                    className="text-[#1A1A1A]/30 hover:text-[#1A1A1A]/60 text-[10px] tracking-wider uppercase transition-colors"
                   >
                     Effacer terminés
                   </button>
@@ -348,7 +348,7 @@ export function GalleryManager() {
                 {pendingCount > 0 && uploadingCount === 0 && (
                   <button
                     onClick={uploadAll}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-[#060b07] text-[11px] tracking-[0.2em] uppercase font-semibold transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-[#C59B63] hover:bg-[#C59B63]/90 text-[#060b07] text-[11px] tracking-[0.2em] uppercase font-semibold transition-colors"
                     style={{ fontFamily: "Raleway, sans-serif" }}
                   >
                     <ArrowDownToLine size={12} />
@@ -367,10 +367,10 @@ export function GalleryManager() {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 10 }}
-                    className="flex items-center gap-4 bg-[#040809] border border-[#D4AF37]/10 p-3"
+                    className="flex items-center gap-4 bg-white border border-[#E5E0D8] p-3"
                   >
                     {/* Miniature */}
-                    <div className="w-14 h-14 shrink-0 overflow-hidden bg-[#0a110a]">
+                    <div className="w-14 h-14 shrink-0 overflow-hidden bg-white">
                       <img
                         src={entry.previewUrl}
                         alt="aperçu"
@@ -381,12 +381,12 @@ export function GalleryManager() {
                     {/* Infos */}
                     <div className="flex-1 min-w-0">
                       <p
-                        className="text-[#f0ebe0]/70 text-xs truncate mb-1"
+                        className="text-[#1A1A1A]/70 text-xs truncate mb-1"
                         style={{ fontFamily: "Raleway, sans-serif" }}
                       >
                         {entry.originalFile.name}
                       </p>
-                      <div className="flex items-center gap-3 text-[10px] text-[#f0ebe0]/30">
+                      <div className="flex items-center gap-3 text-[10px] text-[#1A1A1A]/30">
                         <span>Original : {formatBytes(entry.originalSize)}</span>
                         {entry.webpSize !== null && (
                           <>
@@ -406,9 +406,9 @@ export function GalleryManager() {
                       {/* Barre de progression */}
                       {(entry.status === "converting" || entry.status === "uploading") && (
                         <div className="mt-2">
-                          <div className="h-0.5 bg-[#D4AF37]/10 w-full">
+                          <div className="h-0.5 bg-[#C59B63]/10 w-full">
                             <motion.div
-                              className="h-full bg-[#D4AF37]"
+                              className="h-full bg-[#C59B63]"
                               initial={{ width: "0%" }}
                               animate={{
                                 width: entry.status === "converting"
@@ -418,7 +418,7 @@ export function GalleryManager() {
                               transition={{ duration: 0.3 }}
                             />
                           </div>
-                          <p className="text-[9px] text-[#D4AF37]/50 mt-1 tracking-wider uppercase">
+                          <p className="text-[9px] text-[#C59B63]/50 mt-1 tracking-wider uppercase">
                             {entry.status === "converting" ? "Conversion WebP…" : `Upload ${entry.progress}%`}
                           </p>
                         </div>
@@ -434,14 +434,14 @@ export function GalleryManager() {
                       {entry.status === "pending" && (
                         <button
                           onClick={() => uploadEntry(entry.id)}
-                          className="flex items-center gap-1.5 px-3 py-1.5 border border-[#D4AF37]/30 text-[#D4AF37]/70 hover:text-[#D4AF37] hover:border-[#D4AF37]/60 text-[10px] tracking-wider uppercase transition-colors"
+                          className="flex items-center gap-1.5 px-3 py-1.5 border border-[#C59B63]/30 text-[#C59B63]/70 hover:text-[#C59B63] hover:border-[#C59B63]/60 text-[10px] tracking-wider uppercase transition-colors"
                         >
                           <Upload size={10} />
                           Upload
                         </button>
                       )}
                       {(entry.status === "converting" || entry.status === "uploading") && (
-                        <Loader2 size={16} className="text-[#D4AF37]/60 animate-spin" />
+                        <Loader2 size={16} className="text-[#C59B63]/60 animate-spin" />
                       )}
                       {entry.status === "done" && (
                         <CheckCircle2 size={16} className="text-emerald-400/80" />
@@ -451,7 +451,7 @@ export function GalleryManager() {
                       )}
                       <button
                         onClick={() => removeEntry(entry.id)}
-                        className="text-[#f0ebe0]/20 hover:text-red-400/60 transition-colors p-1"
+                        className="text-[#1A1A1A]/20 hover:text-red-400/60 transition-colors p-1"
                       >
                         <X size={14} />
                       </button>
@@ -468,9 +468,9 @@ export function GalleryManager() {
       <div>
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-3">
-            <div className="h-px w-8 bg-[#D4AF37]/25" />
+            <div className="h-px w-8 bg-[#C59B63]/25" />
             <h3
-              className="text-[#f0ebe0]/50 text-[10px] tracking-[0.35em] uppercase"
+              className="text-[#1A1A1A]/50 text-[10px] tracking-[0.35em] uppercase"
               style={{ fontFamily: "Raleway, sans-serif" }}
             >
               Photos publiées ({gallery.length})
@@ -478,7 +478,7 @@ export function GalleryManager() {
           </div>
           <button
             onClick={loadGallery}
-            className="text-[#D4AF37]/40 hover:text-[#D4AF37]/70 transition-colors"
+            className="text-[#C59B63]/40 hover:text-[#C59B63]/70 transition-colors"
             title="Rafraîchir"
           >
             <FileImage size={14} />
@@ -488,7 +488,7 @@ export function GalleryManager() {
         {galleryLoading && (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="aspect-square bg-[#0a110a] animate-pulse" />
+              <div key={i} className="aspect-square bg-white animate-pulse" />
             ))}
           </div>
         )}
@@ -501,9 +501,9 @@ export function GalleryManager() {
         )}
 
         {!galleryLoading && !galleryError && gallery.length === 0 && (
-          <div className="flex flex-col items-center gap-3 py-14 border border-[#D4AF37]/10">
-            <ImageIcon size={28} className="text-[#D4AF37]/20" />
-            <p className="text-[#f0ebe0]/20 text-xs tracking-wider uppercase">
+          <div className="flex flex-col items-center gap-3 py-14 border border-[#E5E0D8]">
+            <ImageIcon size={28} className="text-[#C59B63]/20" />
+            <p className="text-[#1A1A1A]/20 text-xs tracking-wider uppercase">
               Aucune photo uploadée
             </p>
           </div>
@@ -519,7 +519,7 @@ export function GalleryManager() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.25, delay: i * 0.03 }}
-                  className="group relative aspect-square bg-[#0a110a] overflow-hidden"
+                  className="group relative aspect-square bg-white overflow-hidden"
                 >
                   <img
                     src={photo.url}
@@ -548,14 +548,14 @@ export function GalleryManager() {
                     </div>
                     <div className="flex items-end justify-between">
                       <div>
-                        <p className="text-[#f0ebe0]/70 text-[9px] leading-none">{formatBytes(photo.size)}</p>
-                        <p className="text-[#f0ebe0]/40 text-[8px] mt-0.5">{formatDate(photo.created_at)}</p>
+                        <p className="text-[#1A1A1A]/70 text-[9px] leading-none">{formatBytes(photo.size)}</p>
+                        <p className="text-[#1A1A1A]/40 text-[8px] mt-0.5">{formatDate(photo.created_at)}</p>
                       </div>
                       <button
                         onClick={() => setLightbox(photo)}
-                        className="w-7 h-7 bg-[#D4AF37]/20 border border-[#D4AF37]/40 hover:bg-[#D4AF37]/40 flex items-center justify-center transition-colors"
+                        className="w-7 h-7 bg-[#C59B63]/20 border border-[#C59B63]/40 hover:bg-[#C59B63]/40 flex items-center justify-center transition-colors"
                       >
-                        <ZoomIn size={11} className="text-[#D4AF37]" />
+                        <ZoomIn size={11} className="text-[#C59B63]" />
                       </button>
                     </div>
                   </div>
@@ -573,7 +573,7 @@ export function GalleryManager() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/97 flex items-center justify-center p-6"
+            className="fixed inset-0 z-50 bg-[#1A1A1A]/90 flex items-center justify-center p-6"
             onClick={() => setLightbox(null)}
           >
             <motion.div
@@ -589,16 +589,16 @@ export function GalleryManager() {
                 alt={lightbox.filename}
                 className="max-h-[85vh] max-w-[90vw] object-contain"
               />
-              <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-[#D4AF37]/50" />
-              <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-[#D4AF37]/50" />
+              <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-[#C59B63]/50" />
+              <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-[#C59B63]/50" />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                <p className="text-[#D4AF37]/60 text-[9px] tracking-[0.25em] uppercase">
+                <p className="text-[#C59B63]/60 text-[9px] tracking-[0.25em] uppercase">
                   {lightbox.filename} — {formatBytes(lightbox.size)}
                 </p>
               </div>
               <button
                 onClick={() => setLightbox(null)}
-                className="absolute -top-3 -right-3 bg-[#030706] border border-[#D4AF37]/35 p-2 text-[#D4AF37] hover:bg-[#D4AF37]/12 transition-colors"
+                className="absolute -top-3 -right-3 bg-white border border-[#C59B63]/35 p-2 text-[#C59B63] hover:bg-[#C59B63]/12 transition-colors"
               >
                 <X size={16} />
               </button>
