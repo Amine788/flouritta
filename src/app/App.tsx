@@ -896,21 +896,20 @@ function Contact() {
               </a>
             </div>
           </div>
-          <div className="rounded-2xl overflow-hidden bg-[#E5E0D8] aspect-[4/3] relative">
-            <img
-              src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=700&h=525&fit=crop&auto=format"
-              alt="Agadir Morocco"
-              className="w-full h-full object-cover opacity-80"
+          <div className="rounded-2xl overflow-hidden bg-[#E5E0D8] aspect-[4/3] relative shadow-inner">
+            <iframe
+              src="https://maps.google.com/maps?q=Islane%20Agadir&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Google Maps Flouritta"
+              className="w-full h-full absolute inset-0 grayscale-[20%] contrast-[1.1] opacity-90 hover:opacity-100 hover:grayscale-0 transition-all duration-500"
             />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="bg-white rounded-xl shadow-lg px-6 py-4 text-center">
-                <div className="w-10 h-10 rounded-full bg-[#C59B63] flex items-center justify-center mx-auto mb-2">
-                  <MapPin size={16} className="text-white" />
-                </div>
-                <div className="font-playfair text-sm font-semibold text-[#1A1A1A]">FLOURITTA</div>
-                <div className="font-jost text-xs text-[#706F6C]">Islane, Agadir</div>
-              </div>
-            </div>
+            {/* Enforce border style around iframe */}
+            <div className="absolute inset-0 pointer-events-none ring-1 ring-inset ring-black/5 rounded-2xl" />
           </div>
         </div>
       </div>
