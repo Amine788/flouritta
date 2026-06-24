@@ -7,7 +7,7 @@ import {
 import { 
   getReservations, getBarbers, getPricing,
   type Reservation, type Barber 
-} from "../../../lib/store";
+} from "../../lib/store";
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, 
   Tooltip, ResponsiveContainer, Cell, AreaChart, Area

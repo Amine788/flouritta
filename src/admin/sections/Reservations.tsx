@@ -12,7 +12,7 @@ import {
   getBarbers,
   getPricing,
   type Reservation,
-} from "../../../lib/store";
+} from "../../lib/store";
 
 const STATUS_CONFIG = {
   "En attente": {

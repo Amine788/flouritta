@@ -6,7 +6,7 @@ import {
   getDisplayPhone,
   saveDisplayPhone,
   saveAdminPassword,
-} from "../../../lib/store";
+} from "../../lib/store";
 
 export function Settings() {
   const [whatsappPhone, setWhatsappPhone] = useState("");

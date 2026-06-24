@@ -7,7 +7,7 @@ import {
 import {
   getPricing, savePricing,
   type PricingCategory, type PriceItem,
-} from "../../../lib/store";
+} from "../../lib/store";
 
 export function PricingManager() {
   const [categories, setCategories] = useState<PricingCategory[]>([]);

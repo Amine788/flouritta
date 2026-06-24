@@ -9,7 +9,7 @@ import {
   fetchGalleryPhotos,
   deleteGalleryPhoto,
   type GalleryPhoto,
-} from "../../../lib/store";
+} from "../../lib/store";
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 const WEBP_QUALITY  = 0.85;        // qualité WebP recommandée

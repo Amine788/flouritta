@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Save, Edit2, X, Check, ImageIcon, User, Plus, Trash2, Loader2, Upload } from "lucide-react";
-import { getBarbers, saveBarbers, uploadPhoto, getImageUrl, type Barber } from "../../../lib/store";
+import { getBarbers, saveBarbers, uploadPhoto, getImageUrl, type Barber } from "../../lib/store";
 
 const parsePhotoPosition = (value?: string) => {
   if (!value) return { x: 50, y: 50 };

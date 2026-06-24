@@ -3,7 +3,7 @@ import {
   Scissors, Calendar, Users, LogOut, Menu, X, BarChart3, Tag,
   Settings as SettingsIcon, Clock, ShieldCheck, ImageIcon,
 } from "lucide-react";
-import { logout, getSessionInfo, refreshActivity, checkInactivityTimeout } from "../../lib/store";
+import { logout, getSessionInfo, refreshActivity, checkInactivityTimeout } from "../lib/store";
 import { Reservations } from "./sections/Reservations";
 import { TeamManager } from "./sections/TeamManager";
 import { PricingManager } from "./sections/PricingManager";
@@ -39,31 +39,18 @@ export function AdminPage({ onLogout }: Props) {
     onLogout();
   }, [onLogout]);
 
-  // ── Inactivité + expiration JWT ────────────────────────────────────────────
   useEffect(() => {
-    // Refresh activity sur toute interaction utilisateur
     const onActivity = () => refreshActivity();
     window.addEventListener("mousemove", onActivity, { passive: true });
     window.addEventListener("keydown",   onActivity, { passive: true });
     window.addEventListener("click",     onActivity, { passive: true });
     window.addEventListener("scroll",    onActivity, { passive: true });
 
-    // Vérification périodique toutes les 30 secondes
     const interval = setInterval(() => {
-      // Auto-logout si inactif
-      if (checkInactivityTimeout()) {
-        onLogout();
-        return;
-      }
-      // Mettre à jour l'affichage du timer
+      if (checkInactivityTimeout()) { onLogout(); return; }
       setSessionInfo(getSessionInfo());
-
-      // Auto-logout si le token JWT a expiré
       const info = getSessionInfo();
-      if (info.tokenSecondsLeft === 0) {
-        logout();
-        onLogout();
-      }
+      if (info.tokenSecondsLeft === 0) { logout(); onLogout(); }
     }, 30_000);
 
     return () => {
@@ -75,7 +62,6 @@ export function AdminPage({ onLogout }: Props) {
     };
   }, [onLogout]);
 
-  // Mise à jour du timer toutes les minutes
   useEffect(() => {
     const minuteInterval = setInterval(() => setSessionInfo(getSessionInfo()), 60_000);
     return () => clearInterval(minuteInterval);
@@ -86,45 +72,62 @@ export function AdminPage({ onLogout }: Props) {
     { id: "reservations", label: "Réservations",   icon: <Calendar size={16} /> },
     { id: "team",         label: "Équipe",          icon: <Users size={16} /> },
     { id: "pricing",      label: "Tarifs",          icon: <Tag size={16} /> },
+    { id: "gallery",      label: "Galerie",         icon: <ImageIcon size={16} /> },
     { id: "settings",     label: "Paramètres",      icon: <SettingsIcon size={16} /> },
   ];
 
-  // Couleur du timer selon le temps restant
-  const sessionLeft = Math.min(sessionInfo.tokenSecondsLeft, sessionInfo.inactiveSecondsLeft);
+  const sessionLeft = Math.min(sessionInfo.tokenSecondsLeft ?? 3600, sessionInfo.inactiveSecondsLeft ?? 3600);
   const timerColor  = sessionLeft < 300
-    ? "text-red-400"
+    ? "text-red-500"
     : sessionLeft < 900
-      ? "text-amber-400"
-      : "text-emerald-400/70";
+      ? "text-amber-500"
+      : "text-emerald-600";
 
   return (
-    <div className="min-h-screen bg-[#060b07] flex" style={{ fontFamily: "Raleway, sans-serif" }}>
+    <div
+      className="min-h-screen flex"
+      style={{ fontFamily: "'Jost', system-ui, sans-serif", background: "#FAF8F5" }}
+    >
+      <style>{`
+        .font-playfair { font-family: 'Playfair Display', Georgia, serif; }
+        .font-jost { font-family: 'Jost', system-ui, sans-serif; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #C59B63; border-radius: 2px; }
+      `}</style>
 
       {/* ── Sidebar ── */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#040809] border-r border-[#D4AF37]/10 flex flex-col transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-[#E5E0D8] flex flex-col transition-transform duration-300 lg:translate-x-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:static lg:flex`}
       >
+        {/* Top gold bar */}
+        <div className="h-1 w-full bg-[#C59B63]" />
+
         {/* Logo */}
-        <div className="p-7 border-b border-[#D4AF37]/10 flex flex-col items-center justify-center">
-          <img src={logoImg} alt="AVIATOR" className="h-20 w-auto object-contain mb-2" />
-          <div className="text-[#D4AF37]/50 text-[9px] tracking-[0.4em] uppercase">Espace Admin</div>
+        <div className="px-6 py-6 border-b border-[#E5E0D8] flex flex-col items-center justify-center">
+          <img src={logoImg} alt="FLOURITTA" className="h-16 w-auto object-contain mb-2" />
+          <div className="flex items-center gap-2">
+            <div className="h-px w-5 bg-[#C59B63]/40" />
+            <span className="font-jost text-[9px] text-[#C59B63] tracking-[0.4em] uppercase">Espace Admin</span>
+            <div className="h-px w-5 bg-[#C59B63]/40" />
+          </div>
         </div>
 
         {/* Nav */}
         <nav className="flex-1 p-4 space-y-1">
-          <p className="text-[#f0ebe0]/25 text-[9px] tracking-[0.4em] uppercase px-3 pb-3 pt-2">
+          <p className="font-jost text-[#706F6C]/60 text-[9px] tracking-[0.4em] uppercase px-3 pb-3 pt-2">
             Navigation
           </p>
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => { setTab(item.id); setSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 px-3 py-3 text-xs tracking-wider transition-all duration-200 ${
+              className={`w-full flex items-center gap-3 px-3 py-3 text-xs tracking-wider transition-all duration-200 rounded-lg ${
                 tab === item.id
-                  ? "bg-[#D4AF37]/10 text-[#D4AF37] border-l-2 border-[#D4AF37]"
-                  : "text-[#f0ebe0]/50 hover:text-[#f0ebe0]/80 hover:bg-[#D4AF37]/5 border-l-2 border-transparent"
+                  ? "bg-[#C59B63]/10 text-[#C59B63] border-l-2 border-[#C59B63]"
+                  : "text-[#706F6C] hover:text-[#1A1A1A] hover:bg-[#F0EDE7] border-l-2 border-transparent"
               }`}
             >
               {item.icon}
@@ -135,11 +138,11 @@ export function AdminPage({ onLogout }: Props) {
 
         {/* Session info */}
         <div className="px-4 pb-2">
-          <div className="flex items-center gap-2 px-3 py-2 bg-[#D4AF37]/5 border border-[#D4AF37]/10">
-            <ShieldCheck size={12} className="text-[#D4AF37]/40 shrink-0" />
+          <div className="flex items-center gap-2 px-3 py-2 bg-[#FAF8F5] border border-[#E5E0D8] rounded-xl">
+            <ShieldCheck size={12} className="text-[#C59B63]/60 shrink-0" />
             <div>
-              <p className="text-[#f0ebe0]/30 text-[9px] tracking-wider uppercase">Session</p>
-              <p className={`text-[10px] font-mono font-semibold ${timerColor}`}>
+              <p className="font-jost text-[#706F6C]/60 text-[9px] tracking-wider uppercase">Session</p>
+              <p className={`font-jost text-[10px] font-mono font-semibold ${timerColor}`}>
                 {sessionLeft > 0 ? formatTime(sessionLeft) : "Expirée"}
               </p>
             </div>
@@ -147,10 +150,10 @@ export function AdminPage({ onLogout }: Props) {
         </div>
 
         {/* Logout */}
-        <div className="p-4 border-t border-[#D4AF37]/10">
+        <div className="p-4 border-t border-[#E5E0D8]">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-3 py-3 text-xs tracking-wider text-red-400/60 hover:text-red-400 hover:bg-red-400/5 transition-all duration-200"
+            className="w-full flex items-center gap-3 px-3 py-3 text-xs tracking-wider text-red-400 hover:text-red-600 hover:bg-red-50 transition-all duration-200 rounded-lg"
           >
             <LogOut size={16} />
             <span>Déconnexion</span>
@@ -161,7 +164,7 @@ export function AdminPage({ onLogout }: Props) {
       {/* Overlay mobile */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 lg:hidden"
+          className="fixed inset-0 z-40 bg-black/20 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -169,33 +172,30 @@ export function AdminPage({ onLogout }: Props) {
       {/* ── Main ── */}
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         {/* Header */}
-        <header className="bg-[#040809] border-b border-[#D4AF37]/10 px-6 py-4 flex items-center gap-4">
+        <header className="bg-white border-b border-[#E5E0D8] px-6 py-4 flex items-center gap-4 shadow-sm">
           <button
-            className="lg:hidden text-[#D4AF37]/60 hover:text-[#D4AF37] transition-colors"
+            className="lg:hidden text-[#706F6C] hover:text-[#1A1A1A] transition-colors"
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
             {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
           <div className="flex items-center gap-2">
-            <BarChart3 size={16} className="text-[#D4AF37]/60" />
-            <h1
-              className="text-[#f0ebe0]/80 text-sm tracking-[0.2em] uppercase"
-              style={{ fontFamily: "Raleway, sans-serif", fontWeight: 600 }}
-            >
+            <div className="w-1 h-5 bg-[#C59B63] rounded-full" />
+            <h1 className="font-jost text-[#1A1A1A] text-sm tracking-[0.15em] uppercase font-semibold">
               {navItems.find((n) => n.id === tab)?.label}
             </h1>
           </div>
           <div className="ml-auto flex items-center gap-4">
-            {/* Timer session (header) */}
+            {/* Session timer */}
             <div className="hidden sm:flex items-center gap-1.5">
               <Clock size={11} className={timerColor} />
-              <span className={`text-[10px] font-mono tracking-wider ${timerColor}`}>
+              <span className={`font-jost text-[10px] font-mono tracking-wider ${timerColor}`}>
                 {sessionLeft > 0 ? formatTime(sessionLeft) : "Expirée"}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[#f0ebe0]/30 text-[10px] tracking-wider">En ligne</span>
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="font-jost text-[#706F6C] text-[10px] tracking-wider">En ligne</span>
             </div>
           </div>
         </header>
