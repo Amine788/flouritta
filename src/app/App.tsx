@@ -16,6 +16,7 @@ import {
   ChevronRight,
   Zap,
   Instagram,
+  FileText,
 } from "lucide-react";
 
 // ─── Data ──────────────────────────────────────────────────────────────────
@@ -585,7 +586,16 @@ function Pricing() {
           <h2 className="font-playfair text-3xl md:text-4xl font-semibold text-[#1A1A1A] mb-4">
             Tarification Transparente
           </h2>
-          <p className="font-jost text-[#706F6C] text-sm">Cliquez sur un service pour réserver</p>
+          <p className="font-jost text-[#706F6C] text-sm mb-6">Cliquez sur un service pour réserver</p>
+          <a
+            href="/carte.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 border border-[#C59B63] text-[#C59B63] hover:bg-[#C59B63] hover:text-white font-jost text-xs font-medium tracking-widest uppercase rounded transition-colors"
+          >
+            <FileText size={14} />
+            Consulter notre carte (PDF)
+          </a>
         </div>
 
         <div className="grid lg:grid-cols-[280px_1fr] gap-8">
