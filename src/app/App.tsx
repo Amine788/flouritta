@@ -53,44 +53,88 @@ const servicesLui = [
   { icon: Sparkles, title: "Coloration Barbe", price: "100 DH", img: "photo-1534297635766-a262cdcb8ee4", desc: "Camouflage naturel des poils blancs" },
 ];
 
-const pricingCategories = [
-  { id: "grooming", icon: "💈", label: "Grooming Homme", gender: "m" },
-  { id: "coiffure", icon: "✂", label: "Coiffure & Lissage", gender: "f" },
-  { id: "coloration", icon: "◇", label: "Colorations & Style", gender: "f" },
-  { id: "soins", icon: "◉", label: "Soins Visage Mixte", gender: "x" },
-  { id: "manucure", icon: "💅", label: "Manucure & Regard", gender: "f" },
-  { id: "packs", icon: "♛", label: "Packs Prestige", gender: "x" },
+// ─── Pricing Data ────────────────────────────────────────────────────────────
+// Homme : tarifs Aviator Barbershop | Femme : carte Flouritta
+
+type PricingItem = { num: string; name: string; desc: string; price: string; badge?: string };
+type PricingSection = { id: string; icon: string; label: string; gender: "m" | "f" };
+
+const pricingCategoriesHomme: PricingSection[] = [
+  { id: "coupe",    icon: "✂️",  label: "Coupe & Style",      gender: "m" },
+  { id: "barbe",    icon: "🪒",  label: "Barbe & Rasage",     gender: "m" },
+  { id: "soinsH",  icon: "✨",  label: "Soins & Rituel",     gender: "m" },
+  { id: "packsH",  icon: "👑",  label: "Packs Homme",        gender: "m" },
 ];
 
-const pricingData: Record<string, { num: string; name: string; desc: string; price: string; badge?: string }[]> = {
-  grooming: [
-    { num: "01", name: "Coupe Signature", desc: "Shampooing, coupe stylisée et finitions au rasoir", price: "150 DH", badge: "Populaire" },
-    { num: "02", name: "Taille de Barbe", desc: "Taille sculptée avec rituel serviette chaude", price: "80 DH" },
-    { num: "03", name: "Pack Royal Homme", desc: "Coupe + Barbe + Soin visage express", price: "250 DH", badge: "Populaire" },
-    { num: "04", name: "Coloration Barbe", desc: "Camouflage naturel des poils blancs", price: "100 DH" },
+const pricingCategoriesFemme: PricingSection[] = [
+  { id: "coiffure",   icon: "💇",  label: "Coiffure & Lissage",    gender: "f" },
+  { id: "coloration", icon: "🎨",  label: "Colorations & Style",    gender: "f" },
+  { id: "soinsF",    icon: "🌸",  label: "Soins & Esthétique",    gender: "f" },
+  { id: "manucure",  icon: "💅",  label: "Manucure & Regard",     gender: "f" },
+  { id: "packsF",   icon: "✨",  label: "Packs Prestige",         gender: "f" },
+];
+
+const pricingDataHomme: Record<string, PricingItem[]> = {
+  coupe: [
+    { num: "01", name: "Coupe Classique",    desc: "Coupe soignée, shampooing, séchage et finition",                  price: "80 DH",  badge: "Populaire" },
+    { num: "02", name: "Coupe + Styling",    desc: "Coupe + produits de coiffage professionnels appliqués",           price: "100 DH" },
+    { num: "03", name: "Dégradé Américain", desc: "Fondu peau progressif, finitions précises au rasoir",              price: "100 DH" },
+    { num: "04", name: "Coupe Enfant",       desc: "Coupe douce et soignée pour les moins de 12 ans",                 price: "60 DH"  },
+    { num: "05", name: "Shampooing seul",    desc: "Shampooing + soin capillaire adapté",                             price: "40 DH"  },
   ],
+  barbe: [
+    { num: "01", name: "Taille de Barbe",          desc: "Sculpture et taille précise avec serviette chaude",         price: "60 DH",  badge: "Populaire" },
+    { num: "02", name: "Rasage Classique",          desc: "Rasage au rasoir traditionnel + rituel serviette chaude",  price: "70 DH"  },
+    { num: "03", name: "Barbe + Masque Hydratant", desc: "Taille + application masque nourrissant peau et poils",    price: "90 DH"  },
+    { num: "04", name: "Coloration Barbe",          desc: "Camouflage naturel des poils blancs, résultat naturel",    price: "80 DH"  },
+  ],
+  soinsH: [
+    { num: "01", name: "Soin Visage Homme",        desc: "Nettoyage + masque purifiant + hydratation profonde",       price: "120 DH", badge: "Premium" },
+    { num: "02", name: "Soin Cuir Chevelu",        desc: "Traitement anti-chute et stimulation capillaire",           price: "100 DH" },
+    { num: "03", name: "Massage Crânien",          desc: "Massage relaxant du cuir chevelu et nuque (20 min)",        price: "80 DH"  },
+    { num: "04", name: "Rituel Cire / Épilation", desc: "Épilation oreilles, nez ou front",                          price: "50 DH"  },
+  ],
+  packsH: [
+    { num: "01", name: "Pack Royal Homme",   desc: "Coupe classique + Taille barbe + Soin visage",                   price: "220 DH", badge: "Best-seller" },
+    { num: "02", name: "Pack Gentleman",     desc: "Coupe + Styling + Barbe sculptée + Masque",                      price: "260 DH" },
+    { num: "03", name: "Pack VIP Prestige", desc: "Coupe + Barbe + Soin visage + Massage crânien + Coloration",     price: "380 DH", badge: "Meilleure valeur" },
+  ],
+};
+
+const pricingDataFemme: Record<string, PricingItem[]> = {
   coiffure: [
-    { num: "01", name: "Coupe Femme", desc: "Coupe personnalisée avec conseil stylistique", price: "150 DH" },
-    { num: "02", name: "Lissage Brésilien", desc: "Lissage longue durée aux kératines premium", price: "450 DH", badge: "Best-seller" },
-    { num: "03", name: "Brushing Luxe", desc: "Mise en forme soignée avec finition brillance", price: "120 DH" },
-    { num: "04", name: "Coiffure Mariée", desc: "Coiffure de cérémonie sur-mesure", price: "600 DH", badge: "Sur RDV" },
+    { num: "01", name: "Coupe Femme",                desc: "Coupe personnalisée avec conseil stylistique inclus",            price: "150 DH" },
+    { num: "02", name: "Brushing Luxe",              desc: "Mise en forme soignée avec finition brillance",                  price: "120 DH" },
+    { num: "03", name: "Lissage Brésilien",         desc: "Lissage longue durée à la kératine premium",                    price: "450 DH", badge: "Best-seller" },
+    { num: "04", name: "Lissage Japonais",          desc: "Lissage permanent ultra-lisse et durable",                       price: "550 DH" },
+    { num: "05", name: "Coiffure Mariée",           desc: "Coiffure de cérémonie sur-mesure avec accessoires",              price: "600 DH", badge: "Sur RDV" },
+    { num: "06", name: "Tresses & Nattes",         desc: "Tressage africain, nattes, ou coiffures afro",                   price: "200 DH" },
   ],
   coloration: [
-    { num: "01", name: "Coloration Globale", desc: "Coloration complète avec soin post-couleur", price: "250 DH", badge: "Populaire" },
-    { num: "02", name: "Balayage & Mèches", desc: "Technique balayage lumière naturelle", price: "350 DH" },
-    { num: "03", name: "Ombré & Tie-Dye", desc: "Dégradé de couleurs tendance, effets modernes", price: "400 DH", badge: "Tendance" },
+    { num: "01", name: "Coloration Globale",   desc: "Coloration complète avec soin post-couleur inclus",           price: "250 DH", badge: "Populaire" },
+    { num: "02", name: "Balayage & Mèches",   desc: "Technique balayage naturelle, lumière et volume",             price: "350 DH" },
+    { num: "03", name: "Ombré & Tie-Dye",     desc: "Dégradé de couleurs tendance, effets modernes",              price: "400 DH", badge: "Tendance" },
+    { num: "04", name: "Patine & Revers",     desc: "Correction tonalité, reflets froids ou chauds",              price: "180 DH" },
+    { num: "05", name: "Décoloration",        desc: "Éclaircissement avec soin protecteur capillaire",            price: "300 DH" },
   ],
-  soins: [
-    { num: "01", name: "Soin Hydratant Visage", desc: "Nettoyage + hydratation profonde avec masque", price: "150 DH" },
-    { num: "02", name: "Soin Anti-Âge Prestige", desc: "Protocole lifting et fermeté avec actifs premium", price: "280 DH", badge: "Premium" },
+  soinsF: [
+    { num: "01", name: "Soin Hydratant Visage",    desc: "Nettoyage + masque + hydratation profonde",                  price: "150 DH" },
+    { num: "02", name: "Soin Anti-Âge Prestige",  desc: "Protocole lifting et fermeté avec actifs premium",           price: "280 DH", badge: "Premium" },
+    { num: "03", name: "Épilation Corps",          desc: "Épilation à la cire (jambes, aisselles, bikini…)",          price: "80 DH"  },
+    { num: "04", name: "Massage Relaxant",         desc: "Massage corps complet ou ciblé (dos / épaules)",            price: "200 DH" },
+    { num: "05", name: "Maquillage Journée",       desc: "Maquillage naturel ou soirée avec conseil teint",           price: "150 DH" },
+    { num: "06", name: "Maquillage Mariée",        desc: "Maquillage de cérémonie longue tenue, sur RDV",             price: "500 DH", badge: "Sur RDV" },
   ],
   manucure: [
-    { num: "01", name: "Manucure Classique", desc: "Soin complet des mains, pose vernis au choix", price: "100 DH" },
-    { num: "02", name: "Pose Gel / Semi-permanent", desc: "Pose gel longue durée, design au choix", price: "180 DH", badge: "Populaire" },
+    { num: "01", name: "Manucure Classique",         desc: "Soin complet des mains + pose vernis au choix",            price: "100 DH" },
+    { num: "02", name: "Pose Gel / Semi-permanent",  desc: "Pose gel longue durée, design et forme au choix",         price: "180 DH", badge: "Populaire" },
+    { num: "03", name: "Pédicure Classique",         desc: "Soin complet des pieds + vernis",                          price: "120 DH" },
+    { num: "04", name: "Nail Art",                   desc: "Décoration artistique sur ongles, motifs personnalisés",  price: "50 DH"  },
   ],
-  packs: [
-    { num: "01", name: "Pack Beauté Totale", desc: "Coiffure + Maquillage + Soin visage + Manucure", price: "900 DH", badge: "Meilleure valeur" },
-    { num: "02", name: "Pack Mariée Prestige", desc: "Essai + Coiffure cérémonie + Maquillage + Soins", price: "1500 DH", badge: "Sur RDV" },
+  packsF: [
+    { num: "01", name: "Pack Beauté Totale",    desc: "Coiffure + Maquillage + Soin visage + Manucure",              price: "900 DH",  badge: "Meilleure valeur" },
+    { num: "02", name: "Pack Mariée Prestige", desc: "Essai + Coiffure cérémonie + Maquillage + Soins complète",   price: "1500 DH", badge: "Sur RDV" },
+    { num: "03", name: "Pack Détox Femme",     desc: "Soin visage + Massage relaxant + Manucure classique",        price: "450 DH" },
   ],
 };
 
@@ -571,54 +615,65 @@ function BarbershopSpotlight() {
 // ─── Pricing ─────────────────────────────────────────────────────────────────
 
 function Pricing() {
-  const [activeTab, setActiveTab] = useState("grooming");
-  const items = pricingData[activeTab] || [];
+  const [gender, setGender] = useState<"f" | "m">("f");
+  const categories = gender === "f" ? pricingCategoriesFemme : pricingCategoriesHomme;
+  const data       = gender === "f" ? pricingDataFemme : pricingDataHomme;
+  const [activeTab, setActiveTab] = useState(categories[0].id);
 
-  const genderColor = (g: string) =>
-    g === "m" ? "text-white bg-[#1A1A1A]" : g === "f" ? "text-white bg-[#C59B63]" : "text-[#706F6C] bg-[#F0EDE7]";
+  // Reset tab when gender changes
+  const handleGender = (g: "f" | "m") => {
+    setGender(g);
+    setActiveTab(g === "f" ? pricingCategoriesFemme[0].id : pricingCategoriesHomme[0].id);
+  };
+
+  const items: PricingItem[] = data[activeTab] || [];
 
   return (
     <section id="pricing" className="py-24 md:py-32 bg-[#FAF8F5]">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <GoldDivider />
           <SectionLabel>Nos Tarifs</SectionLabel>
           <h2 className="font-playfair text-3xl md:text-4xl font-semibold text-[#1A1A1A] mb-4">
             Tarification Transparente
           </h2>
-          <p className="font-jost text-[#706F6C] text-sm mb-6">Cliquez sur un service pour réserver</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="/carte-femme.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#C59B63] text-white hover:bg-[#A07840] font-jost text-xs font-medium tracking-widest uppercase rounded transition-colors"
+          <p className="font-jost text-[#706F6C] text-sm mb-8">Cliquez sur un service pour réserver</p>
+
+          {/* Gender Toggle */}
+          <div className="inline-flex border border-[#E5E0D8] rounded-xl overflow-hidden shadow-sm">
+            <button
+              onClick={() => handleGender("f")}
+              className={`font-jost text-xs font-medium tracking-[0.2em] uppercase px-10 py-3.5 transition-all ${
+                gender === "f"
+                  ? "bg-[#C59B63] text-white shadow-inner"
+                  : "bg-white text-[#706F6C] hover:text-[#1A1A1A]"
+              }`}
             >
-              <FileText size={14} />
-              Carte Femme (PDF)
-            </a>
-            <a
-              href="/carte-homme.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#1A1A1A] text-white hover:bg-black font-jost text-xs font-medium tracking-widest uppercase rounded transition-colors"
+              ✦ Pour Elle
+            </button>
+            <button
+              onClick={() => handleGender("m")}
+              className={`font-jost text-xs font-medium tracking-[0.2em] uppercase px-10 py-3.5 transition-all ${
+                gender === "m"
+                  ? "bg-[#1A1A1A] text-white shadow-inner"
+                  : "bg-white text-[#706F6C] hover:text-[#1A1A1A]"
+              }`}
             >
-              <FileText size={14} />
-              Carte Homme (PDF)
-            </a>
+              ✦ Pour Lui
+            </button>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-[280px_1fr] gap-8">
-          {/* Sidebar */}
+        <div className="grid lg:grid-cols-[260px_1fr] gap-8">
+          {/* Sidebar categories */}
           <div className="flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
-            {pricingCategories.map((cat) => (
+            {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`flex items-center gap-3 px-5 py-4 rounded-xl text-left transition-all whitespace-nowrap lg:whitespace-normal flex-shrink-0 lg:flex-shrink group ${
+                className={`flex items-center gap-3 px-5 py-4 rounded-xl text-left transition-all whitespace-nowrap lg:whitespace-normal flex-shrink-0 lg:flex-shrink ${
                   activeTab === cat.id
-                    ? cat.gender === "m"
+                    ? gender === "m"
                       ? "bg-[#1A1A1A] text-white shadow-lg"
                       : "bg-[#C59B63] text-white shadow-[0_4px_20px_rgba(197,155,99,0.35)]"
                     : "bg-white text-[#706F6C] border border-[#E5E0D8] hover:border-[#C59B63]/50"
@@ -626,17 +681,12 @@ function Pricing() {
               >
                 <span className="text-base">{cat.icon}</span>
                 <span className="font-jost text-sm font-medium">{cat.label}</span>
-                {activeTab !== cat.id && (
-                  <span className={`ml-auto hidden lg:inline-block text-[9px] font-jost font-medium uppercase tracking-wide px-2 py-0.5 rounded-full ${genderColor(cat.gender)}`}>
-                    {cat.gender === "m" ? "Homme" : cat.gender === "f" ? "Femme" : "Mixte"}
-                  </span>
-                )}
                 {activeTab === cat.id && <ChevronRight size={14} className="ml-auto hidden lg:block" />}
               </button>
             ))}
           </div>
 
-          {/* Items */}
+          {/* Items list */}
           <div className="space-y-3">
             {items.map((item) => (
               <div
@@ -663,7 +713,7 @@ function Pricing() {
               </div>
             ))}
             <div className="pt-4 text-center">
-              <a href="#booking" className="inline-flex items-center gap-2 font-jost text-sm font-medium tracking-[0.2em] uppercase bg-[#C59B63] text-white px-8 py-4 hover:bg-[#A07840] transition-colors">
+              <a href="#booking" className="inline-flex items-center gap-2 font-jost text-sm font-medium tracking-[0.2em] uppercase bg-[#C59B63] text-white px-8 py-4 hover:bg-[#A07840] transition-colors rounded">
                 Réserver Maintenant <ArrowRight size={14} />
               </a>
             </div>
