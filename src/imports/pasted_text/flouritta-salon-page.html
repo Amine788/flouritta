@@ -1,0 +1,112 @@
+# Role & Task
+Act as an expert Frontend Developer. Generate a modern, single-page premium website for a luxury beauty salon named "FLOURITTA Prestige Mixed Salon" located in Agadir. 
+
+The UI design must strictly mimic the provided UX/UI screenshot of "LUXÉA" (high-end spa/beauty aesthetic).
+
+---
+
+## 🎨 DESIGN SYSTEM & SPECIFICATIONS
+
+1. **Color Palette:**
+   - **Primary Background:** `#FFFFFF` (Pure white)
+   - **Secondary Background (Sections / Off-White):** `#FAF8F5` or `#F7F4EF` (Soft warm cream)
+   - **Accent Color (Gold):** `#C59B63` (Used for premium CTAs, icons, category active states)
+   - **Main Text (Titles):** `#1A1A1A` (Soft charcoal black, never pure `#000`)
+   - **Body Text:** `#706F6C` (Warm grey/taupe, highly readable)
+
+2. **Typography:**
+   - **Titles & Headings (H1, H2, H3):** Elegant Serif font (e.g., Cormorant Garamond, Playfair Display) in UPPERCASE.
+   - **Body & Buttons:** Clean modern Sans-Serif font (e.g., Montserrat, Inter) with subtle letter-spacing for uppercase buttons.
+
+3. **UI Elements & Layout:**
+   - Rounded corners for section cards: `border-radius: 16px` or `20px`.
+   - Grid separators: Thin dividers (`1px solid #E5E0D8`) instead of harsh borders.
+   - Use clean, minimalist SVG line icons matching the `#C59B63` gold color.
+
+---
+
+## 📑 ARCHITECTURE & CONTENT DATA
+
+Please integrate the following copy and sections into a single responsive page (HTML5/TailwindCSS or React/Tailwind):
+
+### 1. Header / Navbar
+- **Logo:** "FLOURITTA" (Serif, elegant typography)
+- **Menu:** À Propos, Équipe, Services, Tarifs, Contact
+- **Right Side:** Language Switcher `[FR]` | **Main CTA Button:** "Réserver" (Gold background, white text)
+
+### 2. Hero Section
+- **Badge:** "PRESTIGE MIXED SALON"
+- **Main Title (H1):** "L'art de la coiffure, de l'esthétique et du bien-être pour elle — Agadir"
+- **Primary CTA:** "Réserver Maintenant" (Gold solid button)
+- **Secondary CTA:** "DÉCOUVRIR NOS SOINS →" (Text link with arrow or outline button)
+- **Background:** Elegant placement for a high-end luxury lifestyle image (placeholder allowed).
+
+### 3. Quick Stats / Navigation Bar (The central horizontal rounded card from Luxéa)
+Display these metrics beautifully:
+- 15K+ Clientes Satisfaites
+- 6 Stylistes & Expertes
+- 4.9★ Note Moyenne
+
+### 4. About Section ("Notre Histoire")
+- **Over-headline:** "NOTRE HISTOIRE"
+- **H2:** "L'Élégance Féminine à Agadir"
+- **Text:** "FLOURITTA BEAUTY CENTER est un salon de coiffure et centre d'esthétique féminin haut de gamme situé à Agadir. Nous avons conçu un havre de paix moderne et raffiné pour offrir à chaque femme bien plus qu'un simple soin, mais une véritable expérience sensorielle et de confiance en soi. Notre mission est de sublimer votre beauté naturelle avec des techniques modernes et des produits professionnels prestigieux, le tout dans une atmosphère de confort absolu et une hygiène rigoureuse."
+
+### 5. Team Section ("Notre Équipe")
+- **Title:** "Notre Équipe de Spécialistes" / **Subtitle:** "Des stylistes et esthéticiennes passionnées pour vous sublimer"
+- **Grid of Profiles** (Include clean avatar placeholders and titles):
+  - **LEILA** — Directrice & Styliste
+  - **KARIM** — Maître Barbier (VIP)
+  - **YASSINE** — Expert Coiffeur Homme
+  - **SOFIA** — Experte Coloriste
+  - **SARAH** — Styliste Coiffeuse
+
+### 6. Services Section (Grid with pricing tags)
+- **Title:** "L'Expérience FLOURITTA"
+- **Service Cards** (Display Title + Starting Price + Arrow):
+  - Coiffure & Lissage — À partir de 150 DH
+  - Coloration & Balayage — À partir de 250 DH
+  - Massages & Spa — À partir de 150 DH
+  - Soins du Visage — À partir de 150 DH
+  - Packs VIP & Mariée — À partir de 900 DH
+
+### 7. Pricing Interactive Section ("Nos Tarifs")
+- **Categories selector on top or left sidebar:**
+  - 💈 Grooming Homme (4 services)
+  - ✂ Coiffure & Lissage (4 services)
+  - ◇ Colorations & Style (3 services)
+  - ◉ Soins Visage Mixte (2 services)
+  - 💅 Manucure & Regard (2 services)
+  - ♛ Packs Prestige (2 services)
+- **Active Tab Data (Grooming Homme):**
+  - **01. Coupe Signature** (Badge: Populaire) — Shampooing, coupe stylisée et finitions au rasoir -> 150 DH
+  - **02. Taille de Barbe** — Taille sculptée avec rituel serviette chaude -> 80 DH
+  - **03. Pack Royal Homme** (Badge: Populaire) — Coupe + Barbe + Soin visage express -> 250 DH
+  - **04. Coloration Barbe** — Camouflage naturel des poils blancs -> 100 DH
+- **Note below:** "Cliquez sur un service pour réserver" + **CTA:** "Réserver Maintenant"
+
+### 8. Testimonials ("Avis Clients")
+- **Text:** "Service impeccable et résultat très professionnel. Je ne vais plus nulle part ailleurs depuis que j'ai découvert FLOURITTA. Mon balayage blond est magnifique et brille à la perfection !"
+- **Author:** Sofia B. (Cliente fidèle, Agadir)
+
+### 9. Booking Form Section ("Réservation")
+A clean, premium centered multi-input form layout:
+- **Inputs:** Nom Complet, Téléphone, Date, Heure (Dropdown: 09:00 to 20:30), Spécialiste Dropdown (Sans préférence, Karim, Leila, Yassine, Sofia, Sarah), Services Dropdown (List all services provided in the prompt).
+- **CTA 1:** "Réserver maintenant" (Main premium style)
+- **CTA 2:** "Réserver directement via WhatsApp" (Green or Gold outlined text link)
+- **Disclaimer text:** "Notre équipe confirme les réservations par téléphone ou WhatsApp sous 2h"
+
+### 10. Contact & Footer (Split Layout)
+- **Left / Map section:** "Visiter FLOURITTA"
+  - **Adresse:** Hay Mohammadi, Agadir
+  - **Horaires:** Lun–Sam 9h–22h · Dim 10h–20h
+  - **Téléphone:** 06 00 00 00 00
+  - **CTA Buttons:** "Discuter sur WhatsApp" / "Ouvrir dans Maps"
+- **Footer Links & Copyright:**
+  - **Description:** "Centre de beauté féminin premium à Agadir — un havre de paix, de luxe et d'élégance."
+  - **Navigation Links Grid:** À Propos, Équipe, Services, Avis Clients, Réserver, Nos Tarifs, Contact
+  - **Legal:** © 2026 FLOURITTA Beauty Center. Tous droits réservés.
+
+---
+
+Deliver the clean, semantic code (HTML/TailwindCSS). Ensure smooth scroll animations, proper grid responsiveness, and absolute adherence to the premium minimalist white & cream aesthetic.

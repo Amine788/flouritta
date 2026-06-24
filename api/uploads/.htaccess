@@ -1,0 +1,23 @@
+# ─── Sécurité dossier uploads/ ────────────────────────────────────────────────
+# Ce dossier contient uniquement des images uploadées par l'admin.
+# RÈGLE 1 : Bloquer toute exécution de scripts PHP/CGI/etc.
+# RÈGLE 2 : Autoriser uniquement l'accès direct aux images.
+
+# Bloquer l'exécution de tout script
+<FilesMatch "\.(php|php3|php4|php5|phtml|pl|py|cgi|sh|bash)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+# Autoriser uniquement les formats image
+<FilesMatch "\.(jpg|jpeg|png|webp|gif|svg)$">
+  Order Allow,Deny
+  Allow from all
+</FilesMatch>
+
+# Désactiver les scripts côté serveur pour ce dossier
+Options -ExecCGI
+RemoveHandler .php .php3 .php4 .php5 .phtml .pl .py .cgi
+
+# Empêcher le listage du dossier
+Options -Indexes

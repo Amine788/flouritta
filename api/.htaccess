@@ -1,0 +1,29 @@
+# ─── Protection du dossier API ────────────────────────────────────────────────
+
+# Bloquer l'accès direct aux fichiers sensibles
+<FilesMatch "^(\.env|test_db\.php|test_otp\.php|debug_login\.php|reset_admin\.php|setup_db\.php)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+# Bloquer l'accès aux fichiers .sql
+<FilesMatch "\.sql$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+# Autoriser uniquement les requêtes JSON et multipart (pas d'accès navigateur direct)
+<IfModule mod_headers.c>
+  # CORS — Géré dynamiquement par PHP dans db.php. Décommenter uniquement si PHP ne le gère pas.
+  # Header always set Access-Control-Allow-Origin "https://aviator.ma"
+  Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+  Header always set Access-Control-Allow-Headers "Content-Type, Authorization"
+  Header always set Access-Control-Max-Age "86400"
+</IfModule>
+
+# Gérer les requêtes OPTIONS (preflight CORS)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_METHOD} OPTIONS
+  RewriteRule ^ - [R=200,L]
+</IfModule>
