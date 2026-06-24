@@ -838,7 +838,7 @@ function Booking() {
             <button type="button" className="w-full font-jost text-sm font-medium tracking-[0.2em] uppercase bg-[#C59B63] text-white py-4 rounded-xl hover:bg-[#A07840] transition-colors">
               Réserver maintenant
             </button>
-            <a href="https://wa.me/212600000000" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full font-jost text-sm font-medium tracking-wide text-[#1A1A1A] border border-[#E5E0D8] py-4 rounded-xl hover:border-[#C59B63] hover:text-[#C59B63] transition-colors">
+            <a href="https://wa.me/212688687633?text=Bonjour%20Flouritta%2C%20je%20souhaite%20prendre%20rendez-vous." target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full font-jost text-sm font-medium tracking-wide text-[#1A1A1A] border border-[#E5E0D8] py-4 rounded-xl hover:border-[#C59B63] hover:text-[#C59B63] transition-colors">
               <MessageCircle size={16} />
               Réserver directement via WhatsApp
             </a>
@@ -888,7 +888,7 @@ function Contact() {
               ))}
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
-              <a href="https://wa.me/212688687633" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 font-jost text-xs font-medium tracking-[0.15em] uppercase bg-[#C59B63] text-white px-6 py-3 rounded-xl hover:bg-[#A07840] transition-colors">
+              <a href="https://wa.me/212688687633?text=Bonjour%20Flouritta%2C%20je%20souhaite%20prendre%20rendez-vous." target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 font-jost text-xs font-medium tracking-[0.15em] uppercase bg-[#C59B63] text-white px-6 py-3 rounded-xl hover:bg-[#A07840] transition-colors">
                 <MessageCircle size={13} /> Discuter sur WhatsApp
               </a>
               <a href="https://maps.google.com/?q=Islane+Agadir" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 font-jost text-xs font-medium tracking-[0.15em] uppercase border border-[#E5E0D8] text-[#1A1A1A] px-6 py-3 rounded-xl hover:border-[#C59B63] hover:text-[#C59B63] transition-colors">
