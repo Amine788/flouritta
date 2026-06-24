@@ -17,6 +17,7 @@ import {
   Zap,
   Instagram,
   FileText,
+  Globe,
 } from "lucide-react";
 
 // ─── Data ──────────────────────────────────────────────────────────────────
@@ -858,33 +859,41 @@ function Contact() {
           <div>
             <GoldDivider />
             <SectionLabel>Nous Trouver</SectionLabel>
-            <h2 className="font-playfair text-3xl md:text-4xl font-semibold text-[#1A1A1A] mb-8">
+            <h2 className="font-playfair text-3xl md:text-4xl font-semibold text-[#1A1A1A] mb-2">
               Visiter FLOURITTA
             </h2>
-            <div className="space-y-6 mb-10">
+            <p className="font-jost text-sm italic text-[#C59B63] mb-8">Where Beauty Blooms Naturally</p>
+            <div className="space-y-5 mb-10">
               {[
-                { Icon: MapPin, label: "Adresse", value: "Hay Mohammadi, Agadir" },
-                { Icon: Clock, label: "Horaires", value: "Lun–Sam 9h–22h · Dim 10h–20h" },
-                { Icon: Phone, label: "Téléphone", value: "06 00 00 00 00" },
-              ].map(({ Icon, label, value }) => (
+                { Icon: MapPin,         label: "Adresse",    value: "Magasin n°6 GH 17, Islane, Agadir",  href: "https://maps.google.com/?q=Islane+Agadir" },
+                { Icon: Phone,          label: "Téléphone",   value: "06 88 68 76 33",                      href: "tel:+212688687633" },
+                { Icon: Clock,          label: "Horaires",   value: "Lun–Sam 9h–22h · Dim 10h–20h",         href: null },
+                { Icon: MessageCircle,  label: "Email",      value: "contact@flouritta.ma",                  href: "mailto:contact@flouritta.ma" },
+                { Icon: Globe,          label: "Site web",   value: "www.flouritta.ma",                       href: "https://www.flouritta.ma" },
+                { Icon: Instagram,      label: "Instagram",  value: "@flouritaa.beautycenter",               href: "https://www.instagram.com/flouritta.beautycenter?igsh=MWIxZXRlaGE4czltaA%3D%3D&utm_source=qr" },
+              ].map(({ Icon, label, value, href }) => (
                 <div key={label} className="flex items-start gap-4">
                   <div className="w-9 h-9 rounded-full bg-white border border-[#E5E0D8] flex items-center justify-center flex-shrink-0 mt-0.5">
                     <Icon size={14} className="text-[#C59B63]" />
                   </div>
                   <div>
-                    <div className="font-jost text-xs font-medium tracking-wide uppercase text-[#706F6C] mb-1">{label}</div>
-                    <div className="font-jost text-sm text-[#1A1A1A]">{value}</div>
+                    <div className="font-jost text-[10px] font-medium tracking-wide uppercase text-[#706F6C] mb-0.5">{label}</div>
+                    {href ? (
+                      <a href={href} target="_blank" rel="noopener noreferrer" className="font-jost text-sm text-[#1A1A1A] hover:text-[#C59B63] transition-colors">{value}</a>
+                    ) : (
+                      <div className="font-jost text-sm text-[#1A1A1A]">{value}</div>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
-              <a href="https://wa.me/212600000000" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 font-jost text-xs font-medium tracking-[0.15em] uppercase bg-[#C59B63] text-white px-6 py-3 rounded-xl hover:bg-[#A07840] transition-colors">
+              <a href="https://wa.me/212688687633" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 font-jost text-xs font-medium tracking-[0.15em] uppercase bg-[#C59B63] text-white px-6 py-3 rounded-xl hover:bg-[#A07840] transition-colors">
                 <MessageCircle size={13} /> Discuter sur WhatsApp
               </a>
-              <button className="flex items-center justify-center gap-2 font-jost text-xs font-medium tracking-[0.15em] uppercase border border-[#E5E0D8] text-[#1A1A1A] px-6 py-3 rounded-xl hover:border-[#C59B63] hover:text-[#C59B63] transition-colors">
+              <a href="https://maps.google.com/?q=Islane+Agadir" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 font-jost text-xs font-medium tracking-[0.15em] uppercase border border-[#E5E0D8] text-[#1A1A1A] px-6 py-3 rounded-xl hover:border-[#C59B63] hover:text-[#C59B63] transition-colors">
                 <MapPin size={13} /> Ouvrir dans Maps
-              </button>
+              </a>
             </div>
           </div>
           <div className="rounded-2xl overflow-hidden bg-[#E5E0D8] aspect-[4/3] relative">
@@ -899,7 +908,7 @@ function Contact() {
                   <MapPin size={16} className="text-white" />
                 </div>
                 <div className="font-playfair text-sm font-semibold text-[#1A1A1A]">FLOURITTA</div>
-                <div className="font-jost text-xs text-[#706F6C]">Hay Mohammadi, Agadir</div>
+                <div className="font-jost text-xs text-[#706F6C]">Islane, Agadir</div>
               </div>
             </div>
           </div>
@@ -918,14 +927,14 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-12 pb-12 border-b border-white/10">
           <div>
-            <div className="mb-4">
+            <div className="mb-3">
               <img src="/logo.png" alt="Flouritta" className="h-12 w-auto brightness-0 invert opacity-90" />
             </div>
-            <p className="font-jost text-sm text-white/40 leading-relaxed max-w-xs">
+            <p className="font-jost text-sm text-white/40 leading-relaxed max-w-xs mb-2">
               Salon mixte premium à Agadir — coiffure, esthétique et barbershop réunis dans un havre d&apos;élégance.
             </p>
-            {/* Dual badge */}
-            <div className="flex gap-2 mt-5">
+            <p className="font-playfair text-xs italic text-[#C59B63]/70 mb-5">Where Beauty Blooms Naturally</p>
+            <div className="flex gap-2">
               <span className="font-jost text-[10px] uppercase tracking-widest text-[#C59B63] border border-[#C59B63]/30 px-3 py-1.5 rounded-full">Pour Elle</span>
               <span className="font-jost text-[10px] uppercase tracking-widest text-white/40 border border-white/10 px-3 py-1.5 rounded-full">Pour Lui</span>
             </div>
@@ -941,20 +950,30 @@ function Footer() {
           <div>
             <div className="font-jost text-xs font-medium tracking-[0.2em] uppercase text-[#C59B63] mb-5">Contact</div>
             <div className="space-y-3">
-              {[
-                { Icon: MapPin, val: "Hay Mohammadi, Agadir" },
-                { Icon: Phone, val: "06 00 00 00 00" },
-                { Icon: Clock, val: "Lun–Sam 9h–22h" },
-              ].map(({ Icon, val }) => (
-                <div key={val} className="flex items-center gap-3">
-                  <Icon size={13} className="text-[#C59B63] flex-shrink-0" />
-                  <span className="font-jost text-sm text-white/50">{val}</span>
-                </div>
-              ))}
-              <div className="flex items-center gap-3 pt-2">
+              <div className="flex items-start gap-3">
+                <MapPin size={13} className="text-[#C59B63] flex-shrink-0 mt-0.5" />
+                <span className="font-jost text-sm text-white/50">Magasin n°6 GH 17, Islane, Agadir</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Phone size={13} className="text-[#C59B63] flex-shrink-0" />
+                <a href="tel:+212688687633" className="font-jost text-sm text-white/50 hover:text-white transition-colors">06 88 68 76 33</a>
+              </div>
+              <div className="flex items-center gap-3">
+                <Clock size={13} className="text-[#C59B63] flex-shrink-0" />
+                <span className="font-jost text-sm text-white/50">Lun–Sam 9h–22h</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <MessageCircle size={13} className="text-[#C59B63] flex-shrink-0" />
+                <a href="mailto:contact@flouritta.ma" className="font-jost text-sm text-white/50 hover:text-white transition-colors">contact@flouritta.ma</a>
+              </div>
+              <div className="flex items-center gap-3">
+                <Globe size={13} className="text-[#C59B63] flex-shrink-0" />
+                <a href="https://www.flouritta.ma" target="_blank" rel="noopener noreferrer" className="font-jost text-sm text-white/50 hover:text-white transition-colors">www.flouritta.ma</a>
+              </div>
+              <div className="flex items-center gap-3">
                 <a href="https://www.instagram.com/flouritta.beautycenter?igsh=MWIxZXRlaGE4czltaA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-white transition-colors group">
                   <Instagram size={13} className="text-[#C59B63] flex-shrink-0 group-hover:text-white transition-colors" />
-                  <span className="font-jost text-sm text-white/50 group-hover:text-white transition-colors">Instagram</span>
+                  <span className="font-jost text-sm text-white/50 group-hover:text-white transition-colors">@flouritaa.beautycenter</span>
                 </a>
               </div>
             </div>
