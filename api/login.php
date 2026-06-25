@@ -42,7 +42,7 @@ $stmt->execute();
 $row  = $stmt->fetch();
 
 if (!$row) {
-    $hash = hashPassword('aviator2024');
+    $hash = hashPassword('test2024');
     $pdo->prepare("INSERT INTO settings (`key`, value) VALUES ('admin_password', ?)")
         ->execute([$hash]);
     $storedHash = $hash;
