@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getPricing, PricingCategory, PriceItem, saveReservation } from "../lib/store";
 import {
   Star,
   Phone,
@@ -18,11 +19,19 @@ import {
   Instagram,
   FileText,
   Globe,
+  ShoppingBag,
+  Trash2,
 } from "lucide-react";
 
 // ─── Data ──────────────────────────────────────────────────────────────────
 
-const navLinks = ["À Propos", "Équipe", "Services", "Tarifs", "Contact"];
+const navLinks = [
+  { name: "À Propos", href: "#about" },
+  { name: "Équipe", href: "#team" },
+  { name: "Services", href: "#services" },
+  { name: "Tarifs", href: "#pricing" },
+  { name: "Contact", href: "#contact" },
+];
 
 const stats = [
   { value: "15K+", label: "Clients Satisfaits" },
@@ -44,7 +53,7 @@ const servicesElle = [
   { icon: Sparkles, title: "Coloration & Balayage", price: "À partir de 250 DH", img: "photo-1522338242992-e1a54906a8da", desc: "Couleur globale, balayage, ombré tendance" },
   { icon: Leaf, title: "Massages & Spa", price: "À partir de 150 DH", img: "photo-1544161515-4ab6ce6db874", desc: "Rituels de relaxation et bien-être profond" },
   { icon: Gem, title: "Soins du Visage", price: "À partir de 150 DH", img: "photo-1570172619644-dfd03ed5d881", desc: "Soins hydratants, anti-âge et éclat" },
-  { icon: Crown, title: "Packs VIP & Mariée", price: "À partir de 900 DH", img: "photo-1519657590073-5f7ad59c0b57", desc: "Forfait complet cérémonie sur-mesure" },
+  { icon: Crown, title: "Packs VIP & Mariée", price: "À partir de 900 DH", img: "photo-1595476108010-b4d1f102b1b1", desc: "Forfait complet cérémonie sur-mesure" },
 ];
 
 const servicesLui = [
@@ -55,90 +64,7 @@ const servicesLui = [
 ];
 
 // ─── Pricing Data ────────────────────────────────────────────────────────────
-// Homme : tarifs Aviator Barbershop | Femme : carte Flouritta
-
-type PricingItem = { num: string; name: string; desc: string; price: string; badge?: string };
-type PricingSection = { id: string; icon: string; label: string; gender: "m" | "f" };
-
-const pricingCategoriesHomme: PricingSection[] = [
-  { id: "coupe",    icon: "✂️",  label: "Coupe & Style",      gender: "m" },
-  { id: "barbe",    icon: "🪒",  label: "Barbe & Rasage",     gender: "m" },
-  { id: "soinsH",  icon: "✨",  label: "Soins & Rituel",     gender: "m" },
-  { id: "packsH",  icon: "👑",  label: "Packs Homme",        gender: "m" },
-];
-
-const pricingCategoriesFemme: PricingSection[] = [
-  { id: "coiffure",   icon: "💇",  label: "Coiffure & Lissage",    gender: "f" },
-  { id: "coloration", icon: "🎨",  label: "Colorations & Style",    gender: "f" },
-  { id: "soinsF",    icon: "🌸",  label: "Soins & Esthétique",    gender: "f" },
-  { id: "manucure",  icon: "💅",  label: "Manucure & Regard",     gender: "f" },
-  { id: "packsF",   icon: "✨",  label: "Packs Prestige",         gender: "f" },
-];
-
-const pricingDataHomme: Record<string, PricingItem[]> = {
-  coupe: [
-    { num: "01", name: "Coupe Classique",    desc: "Coupe soignée, shampooing, séchage et finition",                  price: "80 DH",  badge: "Populaire" },
-    { num: "02", name: "Coupe + Styling",    desc: "Coupe + produits de coiffage professionnels appliqués",           price: "100 DH" },
-    { num: "03", name: "Dégradé Américain", desc: "Fondu peau progressif, finitions précises au rasoir",              price: "100 DH" },
-    { num: "04", name: "Coupe Enfant",       desc: "Coupe douce et soignée pour les moins de 12 ans",                 price: "60 DH"  },
-    { num: "05", name: "Shampooing seul",    desc: "Shampooing + soin capillaire adapté",                             price: "40 DH"  },
-  ],
-  barbe: [
-    { num: "01", name: "Taille de Barbe",          desc: "Sculpture et taille précise avec serviette chaude",         price: "60 DH",  badge: "Populaire" },
-    { num: "02", name: "Rasage Classique",          desc: "Rasage au rasoir traditionnel + rituel serviette chaude",  price: "70 DH"  },
-    { num: "03", name: "Barbe + Masque Hydratant", desc: "Taille + application masque nourrissant peau et poils",    price: "90 DH"  },
-    { num: "04", name: "Coloration Barbe",          desc: "Camouflage naturel des poils blancs, résultat naturel",    price: "80 DH"  },
-  ],
-  soinsH: [
-    { num: "01", name: "Soin Visage Homme",        desc: "Nettoyage + masque purifiant + hydratation profonde",       price: "120 DH", badge: "Premium" },
-    { num: "02", name: "Soin Cuir Chevelu",        desc: "Traitement anti-chute et stimulation capillaire",           price: "100 DH" },
-    { num: "03", name: "Massage Crânien",          desc: "Massage relaxant du cuir chevelu et nuque (20 min)",        price: "80 DH"  },
-    { num: "04", name: "Rituel Cire / Épilation", desc: "Épilation oreilles, nez ou front",                          price: "50 DH"  },
-  ],
-  packsH: [
-    { num: "01", name: "Pack Royal Homme",   desc: "Coupe classique + Taille barbe + Soin visage",                   price: "220 DH", badge: "Best-seller" },
-    { num: "02", name: "Pack Gentleman",     desc: "Coupe + Styling + Barbe sculptée + Masque",                      price: "260 DH" },
-    { num: "03", name: "Pack VIP Prestige", desc: "Coupe + Barbe + Soin visage + Massage crânien + Coloration",     price: "380 DH", badge: "Meilleure valeur" },
-  ],
-};
-
-const pricingDataFemme: Record<string, PricingItem[]> = {
-  coiffure: [
-    { num: "01", name: "Coupe Femme",                desc: "Coupe personnalisée avec conseil stylistique inclus",            price: "150 DH" },
-    { num: "02", name: "Brushing Luxe",              desc: "Mise en forme soignée avec finition brillance",                  price: "120 DH" },
-    { num: "03", name: "Lissage Brésilien",         desc: "Lissage longue durée à la kératine premium",                    price: "450 DH", badge: "Best-seller" },
-    { num: "04", name: "Lissage Japonais",          desc: "Lissage permanent ultra-lisse et durable",                       price: "550 DH" },
-    { num: "05", name: "Coiffure Mariée",           desc: "Coiffure de cérémonie sur-mesure avec accessoires",              price: "600 DH", badge: "Sur RDV" },
-    { num: "06", name: "Tresses & Nattes",         desc: "Tressage africain, nattes, ou coiffures afro",                   price: "200 DH" },
-  ],
-  coloration: [
-    { num: "01", name: "Coloration Globale",   desc: "Coloration complète avec soin post-couleur inclus",           price: "250 DH", badge: "Populaire" },
-    { num: "02", name: "Balayage & Mèches",   desc: "Technique balayage naturelle, lumière et volume",             price: "350 DH" },
-    { num: "03", name: "Ombré & Tie-Dye",     desc: "Dégradé de couleurs tendance, effets modernes",              price: "400 DH", badge: "Tendance" },
-    { num: "04", name: "Patine & Revers",     desc: "Correction tonalité, reflets froids ou chauds",              price: "180 DH" },
-    { num: "05", name: "Décoloration",        desc: "Éclaircissement avec soin protecteur capillaire",            price: "300 DH" },
-  ],
-  soinsF: [
-    { num: "01", name: "Soin Hydratant Visage",    desc: "Nettoyage + masque + hydratation profonde",                  price: "150 DH" },
-    { num: "02", name: "Soin Anti-Âge Prestige",  desc: "Protocole lifting et fermeté avec actifs premium",           price: "280 DH", badge: "Premium" },
-    { num: "03", name: "Épilation Corps",          desc: "Épilation à la cire (jambes, aisselles, bikini…)",          price: "80 DH"  },
-    { num: "04", name: "Massage Relaxant",         desc: "Massage corps complet ou ciblé (dos / épaules)",            price: "200 DH" },
-    { num: "05", name: "Maquillage Journée",       desc: "Maquillage naturel ou soirée avec conseil teint",           price: "150 DH" },
-    { num: "06", name: "Maquillage Mariée",        desc: "Maquillage de cérémonie longue tenue, sur RDV",             price: "500 DH", badge: "Sur RDV" },
-  ],
-  manucure: [
-    { num: "01", name: "Manucure Classique",         desc: "Soin complet des mains + pose vernis au choix",            price: "100 DH" },
-    { num: "02", name: "Pose Gel / Semi-permanent",  desc: "Pose gel longue durée, design et forme au choix",         price: "180 DH", badge: "Populaire" },
-    { num: "03", name: "Pédicure Classique",         desc: "Soin complet des pieds + vernis",                          price: "120 DH" },
-    { num: "04", name: "Nail Art",                   desc: "Décoration artistique sur ongles, motifs personnalisés",  price: "50 DH"  },
-  ],
-  packsF: [
-    { num: "01", name: "Pack Beauté Totale",    desc: "Coiffure + Maquillage + Soin visage + Manucure",              price: "900 DH",  badge: "Meilleure valeur" },
-    { num: "02", name: "Pack Mariée Prestige", desc: "Essai + Coiffure cérémonie + Maquillage + Soins complète",   price: "1500 DH", badge: "Sur RDV" },
-    { num: "03", name: "Pack Détox Femme",     desc: "Soin visage + Massage relaxant + Manucure classique",        price: "450 DH" },
-  ],
-};
-
+// Dynamic pricing loaded from store.ts
 const specialists = ["Sans préférence", "Karim", "Leila", "Yassine", "Sofia", "Sarah"];
 const allServices = [
   "Coupe Signature", "Taille de Barbe", "Pack Royal Homme", "Coloration Barbe",
@@ -178,23 +104,27 @@ function SectionLabel({ children }: { children: string }) {
 
 function Navbar({ menuOpen, setMenuOpen }: { menuOpen: boolean; setMenuOpen: (v: boolean) => void }) {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[#E5E0D8]">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="#" className="flex items-center">
-          <img src="/logo.png" alt="Flouritta" className="h-10 w-auto" />
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#E5E0D8] shadow-sm">
+      <div className="max-w-7xl mx-auto px-8 h-[120px] flex items-center justify-between">
+        {/* Logo */}
+        <a href="#" className="flex items-center shrink-0">
+          <img src="/logo.png" alt="Flouritta" className="h-28 w-auto object-contain" />
         </a>
-        <nav className="hidden md:flex items-center gap-8">
+        {/* Links — centered */}
+        <nav className="hidden md:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
           {navLinks.map((link) => (
-            <a key={link} href="#" className="font-jost text-sm text-[#706F6C] hover:text-[#1A1A1A] transition-colors tracking-wide">
-              {link}
+            <a key={link.name} href={link.href} className="font-jost text-[11px] font-medium tracking-[0.18em] uppercase text-[#706F6C] hover:text-[#C59B63] transition-colors">
+              {link.name}
             </a>
           ))}
         </nav>
-        <div className="hidden md:flex items-center gap-4">
-          <button className="font-jost text-xs text-[#706F6C] border border-[#E5E0D8] px-3 py-1.5 rounded hover:border-[#C59B63] transition-colors">
+        {/* Right actions */}
+        <div className="hidden md:flex items-center gap-3">
+          <button className="font-jost text-[11px] text-[#706F6C] flex items-center gap-1.5 hover:text-[#C59B63] transition-colors">
+            <Globe size={13} />
             FR
           </button>
-          <a href="#booking" className="font-jost text-xs font-medium tracking-widest uppercase bg-[#C59B63] text-white px-5 py-2.5 rounded-sm hover:bg-[#A07840] transition-colors">
+          <a href="#booking" className="font-jost text-[11px] font-semibold tracking-[0.18em] uppercase bg-[#C59B63] text-white px-6 py-2.5 hover:bg-[#A07840] transition-colors">
             Réserver
           </a>
         </div>
@@ -203,13 +133,13 @@ function Navbar({ menuOpen, setMenuOpen }: { menuOpen: boolean; setMenuOpen: (v:
         </button>
       </div>
       {menuOpen && (
-        <div className="md:hidden bg-white border-t border-[#E5E0D8] px-6 py-6 flex flex-col gap-5">
+        <div className="md:hidden bg-white border-t border-[#E5E0D8] px-6 py-6 flex flex-col gap-5 shadow-lg">
           {navLinks.map((link) => (
-            <a key={link} href="#" className="font-jost text-sm text-[#1A1A1A] tracking-wide" onClick={() => setMenuOpen(false)}>
-              {link}
+            <a key={link.name} href={link.href} className="font-jost text-sm tracking-widest uppercase text-[#1A1A1A] hover:text-[#C59B63] transition-colors" onClick={() => setMenuOpen(false)}>
+              {link.name}
             </a>
           ))}
-          <a href="#booking" className="font-jost text-xs font-medium tracking-widest uppercase bg-[#C59B63] text-white px-5 py-3 rounded-sm text-center mt-2" onClick={() => setMenuOpen(false)}>
+          <a href="#booking" className="font-jost text-xs font-semibold tracking-widest uppercase bg-[#C59B63] text-white px-5 py-3 text-center mt-2" onClick={() => setMenuOpen(false)}>
             Réserver
           </a>
         </div>
@@ -223,7 +153,7 @@ function Navbar({ menuOpen, setMenuOpen }: { menuOpen: boolean; setMenuOpen: (v:
 
 function Hero() {
   return (
-    <section className="relative pt-16 min-h-screen grid md:grid-cols-2">
+    <section className="relative pt-[120px] min-h-screen grid md:grid-cols-2">
 
       {/* ── ELLE (left) ── */}
       <div className="relative flex flex-col justify-end overflow-hidden min-h-[50vh] md:min-h-screen group cursor-pointer">
@@ -253,9 +183,14 @@ function Hero() {
           <p className="font-jost text-sm text-white/60 mb-8 max-w-xs leading-relaxed">
             Coiffure, colorations, soins visage, massages et packs mariage — une expérience sensorielle complète.
           </p>
-          <a href="#services" className="inline-flex items-center gap-2 font-jost text-xs font-medium tracking-[0.2em] uppercase text-white border border-white/30 px-6 py-3 hover:bg-white hover:text-[#1A1A1A] transition-all">
-            Découvrir <ArrowRight size={12} />
-          </a>
+          <div className="flex flex-wrap gap-3">
+            <a href="#services" className="inline-flex items-center gap-2 font-jost text-xs font-medium tracking-[0.2em] uppercase text-white border border-white/30 px-6 py-3 hover:bg-white hover:text-[#1A1A1A] transition-all">
+              Découvrir <ArrowRight size={12} />
+            </a>
+            <a href="#booking" className="inline-flex items-center gap-2 font-jost text-xs font-medium tracking-[0.2em] uppercase bg-[#C59B63] text-white px-6 py-3 hover:bg-[#A07840] transition-colors">
+              Réserver
+            </a>
+          </div>
         </div>
       </div>
 
@@ -287,9 +222,14 @@ function Hero() {
           <p className="font-jost text-sm text-white/60 mb-8 max-w-xs leading-relaxed">
             Coupe signature, taille de barbe, rasage traditionnel et packs Royal — le gentleman service.
           </p>
-          <a href="#services" className="inline-flex items-center gap-2 font-jost text-xs font-medium tracking-[0.2em] uppercase text-white border border-white/30 px-6 py-3 hover:bg-white hover:text-[#1A1A1A] transition-all">
-            Découvrir <ArrowRight size={12} />
-          </a>
+          <div className="flex flex-wrap gap-3">
+            <a href="#services" className="inline-flex items-center gap-2 font-jost text-xs font-medium tracking-[0.2em] uppercase text-white border border-white/30 px-6 py-3 hover:bg-white hover:text-[#1A1A1A] transition-all">
+              Découvrir <ArrowRight size={12} />
+            </a>
+            <a href="#booking" className="inline-flex items-center gap-2 font-jost text-xs font-medium tracking-[0.2em] uppercase bg-[#C59B63] text-white px-6 py-3 hover:bg-[#A07840] transition-colors">
+              Réserver
+            </a>
+          </div>
         </div>
       </div>
 
@@ -307,16 +247,6 @@ function Hero() {
           </div>
           <div className="w-px h-12 bg-white/20 hidden md:block" />
         </div>
-      </div>
-
-      {/* Bottom CTA strip */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 flex justify-center pb-8 pointer-events-none">
-        <a
-          href="#booking"
-          className="pointer-events-auto font-jost text-xs font-medium tracking-[0.25em] uppercase bg-[#C59B63] text-white px-8 py-4 hover:bg-[#A07840] transition-colors shadow-xl"
-        >
-          Réserver Maintenant
-        </a>
       </div>
     </section>
   );
@@ -613,21 +543,163 @@ function BarbershopSpotlight() {
   );
 }
 
-// ─── Pricing ─────────────────────────────────────────────────────────────────
+// ─── Pricing ─────────────────────────────────────────────────────────────────// ─── Cart ─────────────────────────────────────────────────────────────────────────────
 
-function Pricing() {
+type CartItem = { item: PriceItem; categoryName: string; gender: "m" | "f" };
+
+function parsePrice(p: string): number {
+  const m = p.replace(/\s/g, "").match(/\d+/);
+  return m ? parseInt(m[0], 10) : 0;
+}
+
+function CartDrawer({
+  cart, onRemove, onClear, onClose, onBook
+}: {
+  cart: CartItem[]; onRemove: (i: number) => void;
+  onClear: () => void; onClose: () => void; onBook: () => void;
+}) {
+  const total = cart.reduce((s, c) => s + parsePrice(c.item.price), 0);
+  return (
+    <>
+      <div className="fixed inset-0 bg-black/50 z-[60] backdrop-blur-sm" onClick={onClose} />
+      <div className="fixed right-0 top-0 h-full w-full max-w-[420px] bg-white z-[70] shadow-2xl flex flex-col">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-5 border-b border-[#E5E0D8]">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-[#C59B63] flex items-center justify-center">
+              <ShoppingBag size={18} className="text-white" />
+            </div>
+            <div>
+              <h3 className="font-playfair text-xl font-semibold text-[#1A1A1A]">Mon Panier</h3>
+              <p className="font-jost text-xs text-[#706F6C] mt-0.5">
+                {cart.length} service{cart.length > 1 ? "s" : ""} sélectionné{cart.length > 1 ? "s" : ""}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            {cart.length > 0 && (
+              <button onClick={onClear} className="flex items-center gap-1 font-jost text-xs text-[#706F6C] hover:text-red-400 transition-colors px-2 py-1 rounded">
+                <Trash2 size={12} /> Vider
+              </button>
+            )}
+            <button onClick={onClose} className="w-8 h-8 rounded-full bg-[#FAF8F5] border border-[#E5E0D8] flex items-center justify-center hover:bg-[#E5E0D8] transition-colors">
+              <X size={15} />
+            </button>
+          </div>
+        </div>
+
+        {/* Items */}
+        <div className="flex-1 overflow-y-auto px-5 py-4">
+          {cart.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full text-center gap-4 py-20">
+              <div className="w-16 h-16 rounded-full bg-[#FAF8F5] border-2 border-dashed border-[#E5E0D8] flex items-center justify-center">
+                <ShoppingBag size={24} className="text-[#C59B63]/40" />
+              </div>
+              <p className="font-jost text-sm text-[#706F6C]">Votre panier est vide</p>
+              <p className="font-jost text-xs text-[#706F6C]/60">Ajoutez des services depuis la liste tarifaire</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {cart.map((c, i) => (
+                <div key={i} className="flex items-start gap-3 p-4 bg-[#FAF8F5] rounded-xl border border-[#E5E0D8] group hover:border-[#C59B63]/40 transition-colors">
+                  <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-sm ${
+                    c.gender === "f" ? "bg-[#C59B63]/10" : "bg-[#1A1A1A]/10"
+                  }`}>
+                    {c.gender === "f" ? "✨" : "✂️"}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-jost text-sm font-semibold text-[#1A1A1A] leading-tight">{c.item.name}</p>
+                    <p className="font-jost text-[11px] text-[#706F6C] mt-0.5">{c.categoryName}</p>
+                    <p className="font-playfair text-base font-semibold text-[#C59B63] mt-1.5">{c.item.price}</p>
+                  </div>
+                  <button
+                    onClick={() => onRemove(i)}
+                    className="w-7 h-7 rounded-full bg-white border border-[#E5E0D8] flex items-center justify-center hover:border-red-300 hover:text-red-400 transition-colors shrink-0 mt-1"
+                  >
+                    <X size={12} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        {cart.length > 0 && (
+          <div className="px-6 py-5 border-t border-[#E5E0D8] bg-[#FAF8F5] space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="font-jost text-sm text-[#706F6C]">Total estimé</span>
+              <span className="font-playfair text-2xl font-semibold text-[#1A1A1A]">
+                {total} <span className="text-base text-[#706F6C]">DH</span>
+              </span>
+            </div>
+            <p className="font-jost text-[10px] text-[#706F6C]/70">
+              * Prix indicatifs — confirmation en salon lors de votre RDV
+            </p>
+            <button
+              onClick={onBook}
+              className="w-full font-jost text-xs font-semibold tracking-[0.2em] uppercase bg-[#C59B63] text-white py-4 hover:bg-[#A07840] transition-all rounded flex items-center justify-center gap-2"
+            >
+              Réserver ces services <ArrowRight size={14} />
+            </button>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+
+function Pricing({
+  cart,
+  setCart,
+}: {
+  cart: CartItem[];
+  setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
+}) {
   const [gender, setGender] = useState<"f" | "m">("f");
-  const categories = gender === "f" ? pricingCategoriesFemme : pricingCategoriesHomme;
-  const data       = gender === "f" ? pricingDataFemme : pricingDataHomme;
-  const [activeTab, setActiveTab] = useState(categories[0].id);
+  const [allCategories, setAllCategories] = useState<PricingCategory[]>([]);
+  const [activeTab, setActiveTab] = useState<string>("");
+  const [cartOpen, setCartOpen] = useState(false);
 
-  // Reset tab when gender changes
+  useEffect(() => {
+    getPricing().then((data) => {
+      setAllCategories(data);
+      const initialCat = data.find(c => c.gender === "f");
+      if (initialCat) setActiveTab(initialCat.id);
+    });
+  }, []);
+
+  const categories = allCategories.filter((c) => c.gender === gender);
+
   const handleGender = (g: "f" | "m") => {
     setGender(g);
-    setActiveTab(g === "f" ? pricingCategoriesFemme[0].id : pricingCategoriesHomme[0].id);
+    const newCat = allCategories.find((c) => c.gender === g);
+    if (newCat) setActiveTab(newCat.id);
   };
 
-  const items: PricingItem[] = data[activeTab] || [];
+  const activeCategory = categories.find((c) => c.id === activeTab);
+  const items: PriceItem[] = activeCategory?.items || [];
+
+  const isInCart = (item: PriceItem) => cart.some(c => c.item.name === item.name);
+
+  const addToCart = (item: PriceItem) => {
+    if (!isInCart(item))
+      setCart(prev => [...prev, { item, categoryName: activeCategory?.name || "", gender }]);
+  };
+
+  const removeFromCart = (idx: number) => setCart(prev => prev.filter((_, i) => i !== idx));
+
+  const removeByName = (name: string) => setCart(prev => prev.filter(c => c.item.name !== name));
+
+  const clearCart = () => setCart([]);
+
+  const handleBook = () => {
+    setCartOpen(false);
+    document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const totalDH = cart.reduce((s, c) => s + parsePrice(c.item.price), 0);
 
   return (
     <section id="pricing" className="py-24 md:py-32 bg-[#FAF8F5]">
@@ -638,7 +710,9 @@ function Pricing() {
           <h2 className="font-playfair text-3xl md:text-4xl font-semibold text-[#1A1A1A] mb-4">
             Tarification Transparente
           </h2>
-          <p className="font-jost text-[#706F6C] text-sm mb-8">Cliquez sur un service pour réserver</p>
+          <p className="font-jost text-[#706F6C] text-sm mb-8">
+            Sélectionnez vos services et constituez votre devis personnalisé
+          </p>
 
           {/* Gender Toggle */}
           <div className="inline-flex border border-[#E5E0D8] rounded-xl overflow-hidden shadow-sm">
@@ -650,7 +724,7 @@ function Pricing() {
                   : "bg-white text-[#706F6C] hover:text-[#1A1A1A]"
               }`}
             >
-              ✦ Pour Elle
+              ❆ Pour Elle
             </button>
             <button
               onClick={() => handleGender("m")}
@@ -660,7 +734,7 @@ function Pricing() {
                   : "bg-white text-[#706F6C] hover:text-[#1A1A1A]"
               }`}
             >
-              ✦ Pour Lui
+              ❆ Pour Lui
             </button>
           </div>
         </div>
@@ -681,7 +755,7 @@ function Pricing() {
                 }`}
               >
                 <span className="text-base">{cat.icon}</span>
-                <span className="font-jost text-sm font-medium">{cat.label}</span>
+                <span className="font-jost text-sm font-medium">{cat.name}</span>
                 {activeTab === cat.id && <ChevronRight size={14} className="ml-auto hidden lg:block" />}
               </button>
             ))}
@@ -689,38 +763,94 @@ function Pricing() {
 
           {/* Items list */}
           <div className="space-y-3">
-            {items.map((item) => (
-              <div
-                key={item.num}
-                className="group bg-white rounded-xl border border-[#E5E0D8] hover:border-[#C59B63]/50 hover:shadow-[0_4px_20px_rgba(197,155,99,0.1)] transition-all p-6 cursor-pointer flex items-center gap-6"
-                onClick={() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })}
-              >
-                <span className="font-playfair text-2xl font-semibold text-[#E5E0D8] flex-shrink-0 w-10">{item.num}</span>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="font-playfair text-base font-semibold text-[#1A1A1A]">{item.name}</h3>
-                    {item.badge && (
-                      <span className="font-jost text-[10px] font-medium tracking-wide uppercase bg-[#C59B63]/10 text-[#C59B63] px-2.5 py-0.5 rounded-full">
-                        {item.badge}
-                      </span>
-                    )}
+            {items.map((item) => {
+              const inCart = isInCart(item);
+              return (
+                <div
+                  key={item.num}
+                  className={`group bg-white rounded-xl border transition-all p-5 flex items-center gap-5 ${
+                    inCart
+                      ? "border-[#C59B63] shadow-[0_4px_20px_rgba(197,155,99,0.18)] bg-[#FFFCF7]"
+                      : "border-[#E5E0D8] hover:border-[#C59B63]/50 hover:shadow-[0_4px_20px_rgba(197,155,99,0.08)]"
+                  }`}
+                >
+                  <span className="font-playfair text-2xl font-semibold text-[#E5E0D8] flex-shrink-0 w-10">{item.num}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 mb-1">
+                      <h3 className="font-playfair text-base font-semibold text-[#1A1A1A]">{item.name}</h3>
+                      {item.badge && (
+                        <span className="font-jost text-[10px] font-medium tracking-wide uppercase bg-[#C59B63]/10 text-[#C59B63] px-2.5 py-0.5 rounded-full">
+                          {item.badge}
+                        </span>
+                      )}
+                      {inCart && (
+                        <span className="font-jost text-[10px] font-medium tracking-wide uppercase bg-emerald-50 text-emerald-600 px-2.5 py-0.5 rounded-full">
+                          ✓ Ajouté
+                        </span>
+                      )}
+                    </div>
+                    <p className="font-jost text-xs text-[#706F6C]">{item.desc}</p>
                   </div>
-                  <p className="font-jost text-xs text-[#706F6C]">{item.desc}</p>
+                  <div className="flex items-center gap-4 flex-shrink-0">
+                    <span className="font-playfair text-xl font-semibold text-[#C59B63]">{item.price}</span>
+                    <button
+                      onClick={() => inCart ? removeByName(item.name) : addToCart(item)}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all font-bold text-lg shrink-0 ${
+                        inCart
+                          ? "bg-[#C59B63] text-white hover:bg-red-400 hover:scale-95"
+                          : "bg-[#FAF8F5] border-2 border-[#E5E0D8] text-[#C59B63] hover:bg-[#C59B63] hover:text-white hover:border-[#C59B63] hover:scale-105"
+                      }`}
+                      title={inCart ? "Retirer du panier" : "Ajouter au panier"}
+                    >
+                      {inCart ? "✓" : "+"}
+                    </button>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 flex-shrink-0">
-                  <span className="font-playfair text-xl font-semibold text-[#C59B63]">{item.price}</span>
-                  <ArrowRight size={14} className="text-[#C59B63] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </div>
-              </div>
-            ))}
-            <div className="pt-4 text-center">
-              <a href="#booking" className="inline-flex items-center gap-2 font-jost text-sm font-medium tracking-[0.2em] uppercase bg-[#C59B63] text-white px-8 py-4 hover:bg-[#A07840] transition-colors rounded">
-                Réserver Maintenant <ArrowRight size={14} />
-              </a>
-            </div>
+              );
+            })}
           </div>
         </div>
       </div>
+
+      {/* Floating cart bar */}
+      {cart.length > 0 && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-lg px-4">
+          <div className="bg-[#1A1A1A] text-white rounded-2xl shadow-2xl px-5 py-4 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <ShoppingBag size={22} className="text-[#C59B63]" />
+                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#C59B63] rounded-full text-white text-[9px] font-bold flex items-center justify-center leading-none">
+                  {cart.length}
+                </span>
+              </div>
+              <div>
+                <p className="font-jost text-sm font-semibold">{cart.length} service{cart.length > 1 ? "s" : ""}</p>
+                <p className="font-jost text-[11px] text-white/50">sélectionné{cart.length > 1 ? "s" : ""}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="font-playfair text-xl font-semibold text-[#C59B63]">{totalDH} DH</span>
+              <button
+                onClick={() => setCartOpen(true)}
+                className="font-jost text-xs font-semibold tracking-[0.15em] uppercase bg-[#C59B63] text-white px-5 py-2.5 rounded-xl hover:bg-[#A07840] transition-colors flex items-center gap-2"
+              >
+                Mon panier <ArrowRight size={13} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Cart Drawer */}
+      {cartOpen && (
+        <CartDrawer
+          cart={cart}
+          onRemove={removeFromCart}
+          onClear={clearCart}
+          onClose={() => setCartOpen(false)}
+          onBook={handleBook}
+        />
+      )}
     </section>
   );
 }
@@ -740,7 +870,7 @@ function Testimonials() {
   ];
 
   return (
-    <section className="py-24 md:py-32 bg-[#1A1A1A] relative overflow-hidden">
+    <section id="testimonials" className="py-24 md:py-32 bg-[#1A1A1A] relative overflow-hidden">
       <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "radial-gradient(circle at 50% 50%, #C59B63 0%, transparent 70%)" }} />
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         <div className="text-center mb-14">
@@ -780,12 +910,87 @@ function Testimonials() {
 
 // ─── Booking ──────────────────────────────────────────────────────────────────
 
-function Booking() {
-  const [form, setForm] = useState({ name: "", phone: "", date: "", time: "", specialist: "", service: "" });
+function Booking({
+  cart,
+  clearCart,
+}: {
+  cart: CartItem[];
+  clearCart: () => void;
+}) {
+  const [form, setForm] = useState({ name: "", phone: "", date: "", time: "", specialist: "" });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
   const update = (key: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (!form.name.trim()) return setError("Veuillez saisir votre nom complet.");
+    if (!form.phone.trim()) return setError("Veuillez saisir votre numéro de téléphone.");
+    if (!form.date) return setError("Veuillez choisir une date.");
+    if (!form.time) return setError("Veuillez choisir une heure.");
+    if (!form.specialist) return setError("Veuillez choisir un spécialiste.");
+    if (cart.length === 0) return setError("Votre panier est vide. Veuillez sélectionner au moins un service.");
+
+    setSubmitting(true);
+    try {
+      const servicesToSave = cart.map(c => ({
+        name: c.item.name,
+        price: parsePrice(c.item.price)
+      }));
+
+      await saveReservation({
+        name: form.name.trim(),
+        phone: form.phone.trim(),
+        date: form.date,
+        time: form.time,
+        barber: form.specialist,
+        services: servicesToSave
+      });
+
+      setSuccess(true);
+      clearCart();
+      setForm({ name: "", phone: "", date: "", time: "", specialist: "" });
+    } catch (err) {
+      console.error(err);
+      setError("Une erreur est survenue lors de l'enregistrement de votre réservation. Veuillez réessayer.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const inputClass =
     "w-full font-jost text-sm text-[#1A1A1A] bg-[#FAF8F5] border border-[#E5E0D8] rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#C59B63] focus:ring-1 focus:ring-[#C59B63]/30 transition-all placeholder:text-[#B8B4AE]";
+
+  if (success) {
+    return (
+      <section id="booking" className="py-24 md:py-32 bg-white">
+        <div className="max-w-2xl mx-auto px-6">
+          <div className="bg-[#FAF8F5] border border-[#E5E0D8] rounded-2xl p-10 text-center space-y-6">
+            <div className="w-16 h-16 bg-emerald-50 border border-emerald-200 rounded-full flex items-center justify-center mx-auto text-emerald-600 text-2xl font-bold">
+              ✓
+            </div>
+            <h2 className="font-playfair text-3xl font-semibold text-[#1A1A1A]">
+              Réservation Confirmée !
+            </h2>
+            <p className="font-jost text-[#706F6C] text-sm max-w-md mx-auto">
+              Votre demande de réservation a été enregistrée avec succès. Notre équipe vous contactera par téléphone ou WhatsApp sous 2 heures pour la validation définitive.
+            </p>
+            <button
+              onClick={() => setSuccess(false)}
+              className="font-jost text-xs font-semibold tracking-[0.2em] uppercase bg-[#C59B63] text-white px-8 py-3.5 rounded-xl hover:bg-[#A07840] transition-colors"
+            >
+              Faire une autre réservation
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="booking" className="py-24 md:py-32 bg-white">
@@ -800,7 +1005,12 @@ function Booking() {
             Notre équipe confirme les réservations par téléphone ou WhatsApp sous 2h
           </p>
         </div>
-        <div className="bg-[#FAF8F5] border border-[#E5E0D8] rounded-2xl p-8 md:p-10">
+        <form onSubmit={handleSubmit} className="bg-[#FAF8F5] border border-[#E5E0D8] rounded-2xl p-8 md:p-10">
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-xs text-red-600 font-medium">
+              {error}
+            </div>
+          )}
           <div className="grid md:grid-cols-2 gap-5">
             {[
               { key: "name", label: "Nom Complet", type: "text", placeholder: "Votre nom" },
@@ -809,41 +1019,86 @@ function Booking() {
             ].map(({ key, label, type, placeholder }) => (
               <div key={key}>
                 <label className="block font-jost text-xs font-medium text-[#1A1A1A] tracking-wide uppercase mb-2">{label}</label>
-                <input type={type} placeholder={placeholder} value={(form as Record<string,string>)[key]} onChange={update(key)} className={inputClass} />
+                <input type={type} placeholder={placeholder} value={(form as Record<string,string>)[key]} onChange={update(key)} className={inputClass} required />
               </div>
             ))}
             <div>
               <label className="block font-jost text-xs font-medium text-[#1A1A1A] tracking-wide uppercase mb-2">Heure</label>
-              <select value={form.time} onChange={update("time")} className={inputClass}>
+              <select value={form.time} onChange={update("time")} className={inputClass} required>
                 <option value="">Choisir une heure</option>
                 {hours.map((h) => <option key={h} value={h}>{h}</option>)}
               </select>
             </div>
-            <div>
+            <div className="md:col-span-2">
               <label className="block font-jost text-xs font-medium text-[#1A1A1A] tracking-wide uppercase mb-2">Spécialiste</label>
-              <select value={form.specialist} onChange={update("specialist")} className={inputClass}>
+              <select value={form.specialist} onChange={update("specialist")} className={inputClass} required>
                 <option value="">Choisir</option>
                 {specialists.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
-            <div>
-              <label className="block font-jost text-xs font-medium text-[#1A1A1A] tracking-wide uppercase mb-2">Service</label>
-              <select value={form.service} onChange={update("service")} className={inputClass}>
-                <option value="">Choisir un service</option>
-                {allServices.map((s) => <option key={s} value={s}>{s}</option>)}
-              </select>
-            </div>
           </div>
+
+          {/* Cart Summary */}
+          <div className="mt-6 border-t border-[#E5E0D8] pt-6">
+            <label className="block font-jost text-xs font-medium text-[#1A1A1A] tracking-wide uppercase mb-3">
+              Services Sélectionnés
+            </label>
+            {cart.length === 0 ? (
+              <div className="bg-[#FFFDF9] border border-dashed border-[#E5E0D8] rounded-xl p-6 text-center">
+                <p className="font-jost text-sm text-[#706F6C] mb-2">Votre panier est vide</p>
+                <a
+                  href="#pricing"
+                  className="inline-flex items-center gap-1.5 font-jost text-xs font-semibold text-[#C59B63] hover:text-[#A07840] transition-colors"
+                >
+                  Choisir des services dans nos tarifs <ArrowRight size={12} />
+                </a>
+              </div>
+            ) : (
+              <div className="bg-[#FFFDF9] border border-[#E5E0D8] rounded-xl p-4 space-y-3">
+                <div className="max-h-48 overflow-y-auto space-y-2.5 pr-2">
+                  {cart.map((c, idx) => (
+                    <div key={idx} className="flex justify-between items-center gap-4 text-sm">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-xs">{c.gender === "f" ? "✨" : "✂️"}</span>
+                        <span className="font-jost text-[#1A1A1A] font-medium truncate">
+                          {c.item.name}
+                        </span>
+                        <span className="font-jost text-[10px] text-[#706F6C] bg-[#FAF8F5] border border-[#E5E0D8] px-2 py-0.5 rounded-full shrink-0">
+                          {c.categoryName}
+                        </span>
+                      </div>
+                      <span className="font-playfair font-semibold text-[#C59B63] shrink-0">
+                        {c.item.price}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="border-t border-[#E5E0D8] pt-3 flex justify-between items-center">
+                  <span className="font-jost text-xs font-semibold text-[#706F6C] uppercase tracking-wide">
+                    Total
+                  </span>
+                  <span className="font-playfair text-lg font-bold text-[#1A1A1A]">
+                    {cart.reduce((s, c) => s + parsePrice(c.item.price), 0)} DH
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="mt-8 space-y-4">
-            <button type="button" className="w-full font-jost text-sm font-medium tracking-[0.2em] uppercase bg-[#C59B63] text-white py-4 rounded-xl hover:bg-[#A07840] transition-colors">
-              Réserver maintenant
+            <button
+              type="submit"
+              disabled={submitting || cart.length === 0}
+              className="w-full font-jost text-sm font-medium tracking-[0.2em] uppercase bg-[#C59B63] text-white py-4 rounded-xl hover:bg-[#A07840] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {submitting ? "Enregistrement..." : "Réserver maintenant"}
             </button>
             <a href="https://wa.me/212688687633?text=Bonjour%20Flouritta%2C%20je%20souhaite%20prendre%20rendez-vous." target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full font-jost text-sm font-medium tracking-wide text-[#1A1A1A] border border-[#E5E0D8] py-4 rounded-xl hover:border-[#C59B63] hover:text-[#C59B63] transition-colors">
               <MessageCircle size={16} />
               Réserver directement via WhatsApp
             </a>
           </div>
-        </div>
+        </form>
       </div>
     </section>
   );
@@ -920,69 +1175,77 @@ function Contact() {
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
 function Footer() {
-  const footerLinks = ["À Propos", "Équipe", "Services", "Avis Clients", "Réserver", "Nos Tarifs", "Contact"];
+  const footerLinks = [
+    { name: "À Propos", href: "#about" },
+    { name: "Équipe", href: "#team" },
+    { name: "Services", href: "#services" },
+    { name: "Avis Clients", href: "#testimonials" },
+    { name: "Réserver", href: "#booking" },
+    { name: "Nos Tarifs", href: "#pricing" },
+    { name: "Contact", href: "#contact" }
+  ];
   return (
     <footer className="bg-[#1A1A1A] py-16">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-12 pb-12 border-b border-white/10">
           <div>
-            <div className="mb-3">
-              <img src="/logo.png" alt="Flouritta" className="h-12 w-auto brightness-0 invert opacity-90" />
+            <div className="mb-5">
+              <img src="/logo.png" alt="Flouritta" className="h-20 w-auto object-contain" />
             </div>
-            <p className="font-jost text-sm text-white/40 leading-relaxed max-w-xs mb-2">
+            <p className="font-jost text-sm text-white/70 leading-relaxed max-w-xs mb-3">
               Salon mixte premium à Agadir — coiffure, esthétique et barbershop réunis dans un havre d&apos;élégance.
             </p>
-            <p className="font-playfair text-xs italic text-[#C59B63]/70 mb-5">Where Beauty Blooms Naturally</p>
+            <p className="font-playfair text-xs italic text-[#C59B63] mb-6">Where Beauty Blooms Naturally</p>
             <div className="flex gap-2">
-              <span className="font-jost text-[10px] uppercase tracking-widest text-[#C59B63] border border-[#C59B63]/30 px-3 py-1.5 rounded-full">Pour Elle</span>
-              <span className="font-jost text-[10px] uppercase tracking-widest text-white/40 border border-white/10 px-3 py-1.5 rounded-full">Pour Lui</span>
+              <span className="font-jost text-[10px] uppercase tracking-widest text-[#C59B63] border border-[#C59B63]/30 px-3.5 py-1.5 rounded-full">Pour Elle</span>
+              <span className="font-jost text-[10px] uppercase tracking-widest text-white/55 border border-white/10 px-3.5 py-1.5 rounded-full">Pour Lui</span>
             </div>
           </div>
           <div>
-            <div className="font-jost text-xs font-medium tracking-[0.2em] uppercase text-[#C59B63] mb-5">Navigation</div>
-            <div className="grid grid-cols-2 gap-y-3 gap-x-6">
+            <div className="font-jost text-xs font-medium tracking-[0.2em] uppercase text-[#C59B63] mb-6">Navigation</div>
+            <div className="grid grid-cols-2 gap-y-3.5 gap-x-6">
               {footerLinks.map((link) => (
-                <a key={link} href="#" className="font-jost text-sm text-white/50 hover:text-white transition-colors">{link}</a>
+                <a key={link.name} href={link.href} className="font-jost text-sm text-white/60 hover:text-[#C59B63] transition-colors">{link.name}</a>
               ))}
             </div>
           </div>
           <div>
-            <div className="font-jost text-xs font-medium tracking-[0.2em] uppercase text-[#C59B63] mb-5">Contact</div>
-            <div className="space-y-3">
+            <div className="font-jost text-xs font-medium tracking-[0.2em] uppercase text-[#C59B63] mb-6">Contact</div>
+            <div className="space-y-4">
               <div className="flex items-start gap-3">
-                <MapPin size={13} className="text-[#C59B63] flex-shrink-0 mt-0.5" />
-                <span className="font-jost text-sm text-white/50">Magasin n°6 GH 17, Islane, Agadir</span>
+                <MapPin size={14} className="text-[#C59B63] flex-shrink-0 mt-0.5" />
+                <span className="font-jost text-sm text-white/70">Magasin n°6 GH 17, Islane, Agadir</span>
               </div>
               <div className="flex items-center gap-3">
-                <Phone size={13} className="text-[#C59B63] flex-shrink-0" />
-                <a href="tel:+212688687633" className="font-jost text-sm text-white/50 hover:text-white transition-colors">06 88 68 76 33</a>
+                <Phone size={14} className="text-[#C59B63] flex-shrink-0" />
+                <a href="tel:+212688687633" className="font-jost text-sm text-white/70 hover:text-[#C59B63] transition-colors">06 88 68 76 33</a>
               </div>
               <div className="flex items-center gap-3">
-                <Clock size={13} className="text-[#C59B63] flex-shrink-0" />
-                <span className="font-jost text-sm text-white/50">Lun–Sam 9h–22h</span>
+                <Clock size={14} className="text-[#C59B63] flex-shrink-0" />
+                <span className="font-jost text-sm text-white/70">Lun–Sam 9h–22h · Dim 10h–20h</span>
               </div>
               <div className="flex items-center gap-3">
-                <MessageCircle size={13} className="text-[#C59B63] flex-shrink-0" />
-                <a href="mailto:contact@flouritta.ma" className="font-jost text-sm text-white/50 hover:text-white transition-colors">contact@flouritta.ma</a>
+                <MessageCircle size={14} className="text-[#C59B63] flex-shrink-0" />
+                <a href="mailto:contact@flouritta.ma" className="font-jost text-sm text-white/70 hover:text-[#C59B63] transition-colors">contact@flouritta.ma</a>
               </div>
               <div className="flex items-center gap-3">
-                <Globe size={13} className="text-[#C59B63] flex-shrink-0" />
-                <a href="https://www.flouritta.ma" target="_blank" rel="noopener noreferrer" className="font-jost text-sm text-white/50 hover:text-white transition-colors">www.flouritta.ma</a>
+                <Globe size={14} className="text-[#C59B63] flex-shrink-0" />
+                <a href="https://www.flouritta.ma" target="_blank" rel="noopener noreferrer" className="font-jost text-sm text-white/70 hover:text-[#C59B63] transition-colors">www.flouritta.ma</a>
               </div>
               <div className="flex items-center gap-3">
                 <a href="https://www.instagram.com/flouritta.beautycenter?igsh=MWIxZXRlaGE4czltaA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-white transition-colors group">
-                  <Instagram size={13} className="text-[#C59B63] flex-shrink-0 group-hover:text-white transition-colors" />
-                  <span className="font-jost text-sm text-white/50 group-hover:text-white transition-colors">@flouritaa.beautycenter</span>
+                  <Instagram size={14} className="text-[#C59B63] flex-shrink-0 group-hover:text-[#C59B63] transition-colors" />
+                  <span className="font-jost text-sm text-white/70 group-hover:text-[#C59B63] transition-colors">@flouritaa.beautycenter</span>
                 </a>
               </div>
             </div>
           </div>
         </div>
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="font-jost text-xs text-white/25 tracking-wide">© 2026 FLOURITTA Beauty Center. Tous droits réservés.</p>
+          <p className="font-jost text-xs text-white/40 tracking-wide">© 2026 FLOURITTA Beauty Center. Tous droits réservés.</p>
           <div className="flex items-center gap-2">
             <div className="h-px w-6 bg-[#C59B63]/40" />
-            <span className="font-playfair text-sm italic text-[#C59B63]/60">Prestige · Beauté · Élégance</span>
+            <span className="font-playfair text-sm italic text-[#C59B63]/80">Prestige · Beauté · Élégance</span>
             <div className="h-px w-6 bg-[#C59B63]/40" />
           </div>
         </div>
@@ -995,6 +1258,7 @@ function Footer() {
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cart, setCart] = useState<CartItem[]>([]);
 
   return (
     <div className="min-h-screen bg-background text-foreground" style={{ fontFamily: "'Jost', system-ui, sans-serif" }}>
@@ -1014,9 +1278,9 @@ export default function App() {
       <Team />
       <Services />
       <BarbershopSpotlight />
-      <Pricing />
+      <Pricing cart={cart} setCart={setCart} />
       <Testimonials />
-      <Booking />
+      <Booking cart={cart} clearCart={() => setCart([])} />
       <Contact />
       <Footer />
     </div>

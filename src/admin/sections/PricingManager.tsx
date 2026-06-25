@@ -123,15 +123,21 @@ export function PricingManager() {
           <button
             key={c.id}
             onClick={() => { setActiveTab(i); setEditingItem(null); setAddingItem(null); }}
-            className={`flex items-center gap-2 px-4 py-2 text-[10px] tracking-[0.2em] uppercase transition-all duration-200 border ${
+            className={`flex flex-col gap-1.5 items-start px-4 py-2.5 transition-all duration-200 border rounded-xl ${
               activeTab === i
-                ? "border-[#C59B63] bg-[#C59B63]/10 text-[#C59B63]"
-                : "border-[#E5E0D8] text-[#1A1A1A]/45 hover:border-[#C59B63]/35 hover:text-[#1A1A1A]/70"
+                ? "border-[#C59B63] bg-[#C59B63] text-white shadow-md"
+                : "border-[#E5E0D8] bg-white text-[#706F6C] hover:border-[#C59B63]/50 hover:text-[#1A1A1A]"
             }`}
           >
-            <span>{c.icon}</span>
-            <span>{c.label}</span>
-            {c.id === "vip" && <Crown size={10} />}
+            <div className="flex items-center gap-2 text-xs font-medium tracking-wide uppercase font-jost">
+              <span>{c.icon}</span>
+              <span>{c.name}</span>
+            </div>
+            <span className={`text-[8px] font-bold tracking-[0.2em] px-1.5 py-0.5 rounded uppercase ${
+              c.gender === 'm' ? (activeTab === i ? 'bg-white text-[#1A1A1A]' : 'bg-[#1A1A1A] text-white') : (activeTab === i ? 'bg-white text-[#C59B63]' : 'bg-[#C59B63] text-white')
+            }`}>
+              {c.gender === 'm' ? 'HOMME' : 'FEMME'}
+            </span>
           </button>
         ))}
       </div>
@@ -142,10 +148,10 @@ export function PricingManager() {
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#E5E0D8] bg-white">
           <div className="flex items-center gap-3">
             <span className="text-[#C59B63] text-lg">{cat.icon}</span>
-            <h3 className="text-[#1A1A1A]" style={{ fontFamily: "Playfair Display, serif", fontSize: "1rem", fontWeight: 700 }}>
-              {cat.label}
+            <h3 className="text-[#1A1A1A]" style={{ fontFamily: "Playfair Display, serif", fontSize: "1.1rem", fontWeight: 700 }}>
+              {cat.name}
             </h3>
-            <span className="text-[#1A1A1A]/20 text-[10px]">— {cat.items.length} service{cat.items.length > 1 ? "s" : ""}</span>
+            <span className="text-[#706F6C] text-xs font-jost">— {cat.items.length} service{cat.items.length > 1 ? "s" : ""}</span>
           </div>
           <button
             onClick={() => { setAddingItem(activeTab); setEditingItem(null); }}
